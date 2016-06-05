@@ -58,12 +58,9 @@ var HtmlBuilder = HtmlBuilder || {
         ret += '>'; // Close head/opening tag
 
         // Process Child HTML Objects
-        console.log('# of ChildObjects for tag (' + tagName + '): ' + childObjects.length);
-        
         if ( childObjects != undefined && childObjects.length != undefined && Array.isArray(childObjects) ) {
             for (var i = 0; i < childObjects.length; i++) {
                 var childObject = childObjects[i] || {};
-                console.log('ChildObjects for tag (' + tagName + '): ' + childObject);
                 ret += HtmlBuilder.buildHtmlString(childObjects[i]);
             }
         }
@@ -74,7 +71,6 @@ var HtmlBuilder = HtmlBuilder || {
 
         ret += '</' + objHtml.tagName + '>'; // Closing tag
         
-        console.log('buildHtmlString: tagName (' + tagName + '): ' + ret);
         return ret;
         
     }
