@@ -1,0 +1,52 @@
+/*
+ * Popup.css
+ *
+ *
+ */
+
+
+/* ---------------
+   DEVICE SPECIFIC
+ * ---------------
+ */
+
+@media screen and (max-height: 600px) { /* Small vertical resolution */
+    
+}
+
+
+/*
+ * --------------
+ * Height and Width Customizations
+ * --------------
+ */
+
+/* Default = Wide */
+body {
+    min-height: 580px;
+    height: 580px;
+    min-width: 495px;
+    width: 495px;
+}
+
+/* Customized option: Narrow = Small iPhone size */
+
+body.narrow {
+    min-height: 500px;
+    height: 500px;
+    min-width: 335px;
+    width: 335px;
+}
+
+
+/* Popup */
+
+div[data-role="page"] {
+    height: 100%;
+}
+
+div[data-role="footer"] {
+    /*position: inherit;
+    bottom:0px;
+    width: 100%;*/
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+Work Tools Chrome Extension
+https://github.com/JBRadio/<<Insert>>
+
+ Work helpers for various things
+  (A) If an in-depth tool that is free, in accessibility and money, exists, do not recreate it.
+       - Have informational pages (not Wikipedia.. perhaps a list of links) 
+  (B) Conversions
+       - Unit Conversions (bytes <-> kb <-> mb <-> gb <-> etc.)
+       - Hex <-> Decimal <-> RGBA
+       - 
+  (C) Text Manipulation
+  (D) 
+ 
+Chrome Extension Type: Browser Action (not a page action)
+
+NOTEWORTHY
+ - Some features may not work on Google pages (text selection for example)
+
+VERSION HISTORY
+ - Top/Bottom Menu bar
+    - 
+ - Content Script
+    - 
+ - Extension onClick
+    - 
+ - Chrome Storage
+    - 
+ - Iframe
+   - 
+
+-->
+
+<html>
+
+<head>
+    
+    <!-- link: CSS Stylesheet -->
+    <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="/css/popup.css">
+
+    <!-- Font-awesome for spinner.GIF replacement -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+
+    <!-- meta: Metadata - Document characteristic data -->
+    <meta charset="UTF-8">
+    <meta name="author" content="James Burns">
+    <meta name="description" content="Tools when working with data">
+    <meta name="keywords" content="Tools, Data, Programmer, Unit, Conversion">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"> <!--rendering and touch zooming -->
+   
+    <!-- script: Require include for jQuery Mobile: jQuery, jQuery Mobile, jQuery Mobile CSS (above) -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script src="js/HtmlBuilder.js"></script>
+    <script src="js/popup.js"></script>
+    <!-- Additional JavaScript references are added at the end of <body> -->
+    
+    <title>Work Tools</title>
+    
+</head>
+
+<body>
+    
+    <!-- Index -->
+    <div data-role="page" data-theme="a" id="index">
+        
+        <div data-role="header" data-position="fixed">
+            <h1>Work Tools</h1>
+        </div> <!-- header -->
+        
+        <div data-role="content" class="ui-content">
+            <ul data-role="listview" data-inset="true" data-filter="true">
+                <li data-role="list-divider">Text</li>
+                <li><a href="">Uppercase</a></li>
+                <li><a href="">Lowercase</a></li>
+            </ul>
+        </div> <!-- content -->
+        
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a data-icon="home" href="#index">Home</a></li>
+                    <li><a data-icon="gear" href="#options">Options</a></li>
+                    <li><a data-icon="info" href="#credits">Credits</a></li>
+                </ul>
+            </div>
+        </div> <!-- footer -->
+    </div> <!-- End of Index (page) -->
+    
+    
+
+   
+   <!-- Scripts: Tools -->
+    
+    <script src="js/ToolTextUppercase.js"></script>
+
+</body>
+</html>

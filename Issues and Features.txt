@@ -1,0 +1,52 @@
+Issue and Features
+
+
+Table of Contents
+  KNOWN ISSUES
+  THOUGHTS / IMPROVEMENTS
+  COMPLETED
+  
+
+------------
+KNOWN ISSUES 
+------------
+
+
+<iframe> Functionality (Loading, CSS, Buttons interacting with <iframe>, Content Script)
+----------------------
+
+
+Google Chrome Extension UI (popup.css, popup.html, resizing extension, device specific, other)
+--------------------------
+
+
+Google Chrome tab browsing (Content script)
+--------------------------
+
+    Issue: 
+    Workaround:
+    Potential Dev Solutions: 
+
+
+Session Persistence (New session of the extension doesn't remember what happened in the old session)
+-------------------
+
+
+-----------------------
+THOUGHTS / IMPROVEMENTS
+-----------------------
+ 
+ 
+ 
+ ---------
+ COMPLETED
+ ---------
+ 
+    
+ 
+ <iframe> Functionality (Loading, CSS, Buttons interacting with <iframe>, Content Script)
+ ----------------------
+ 
+ 
+ Google Chrome Extension UI (popup.css, popup.html, resizing extension, device specific, other)
+--------------------------
