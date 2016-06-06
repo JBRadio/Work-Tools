@@ -175,32 +175,22 @@ $(document).ready(function () {
 // jQuery Mobile
 // -------------
 
-var indexPageClickEventsSet = false;
-
-function clickEventForListview(){
-	if ( this.children && this.children.length > 1 )
-		return console.log("Cannot process more than child in <li>"); // Use dialog
-	else if ( this.children && this.children.length > 0 )
-		WorkTool.Page(this.children[0].innerHTML); // If <a>, get innerHTML of that
-	else
-		WorkTool.Page(this.innerHTML);
-}
-
-$(document).on('pageshow', '#index', function() {
-        //alert( $('#index li').length );
+$(document).on('pageinit', '#index', function() { // Initialize #index; Only happens once.
 		
-		if ( indexPageClickEventsSet == false ) {
-		
-			$('#index li').map( function(number, element) {
-				$(element).on('click', clickEventForListview );
-			});
-			
-			indexPageClickEventsSet = true; // Do this only once. Use with global boolean.
-			//console.log('Confirm this is only set initially.');
-		}
+    $('#index li').map( function(number, element) {
+        //$(element).on('click', clickEventForListview );
+        $(element).on('click', function (){
+            if ( this.children && this.children.length > 1 )
+                return console.log("Cannot process more than child in <li>"); // Use dialog
+            else if ( this.children && this.children.length > 0 )
+                WorkTool.Page(this.children[0].innerHTML); // If <a>, get innerHTML of that
+            else
+                WorkTool.Page(this.innerHTML); 
+        });
     });
+});
 
-/* 
+/*
 $(document).on('pagebeforecreate',function(){console.log('pagebeforecreate');});
 $(document).on('pagecreate',function(){console.log('pagecreate');});
 $(document).on('pageinit',function(){console.log('pageinit');});
