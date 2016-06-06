@@ -37,16 +37,6 @@ var WorkTool = WorkTool || {
     },
     loadedTool: {}, // avoid loading the same tool twice or doing extra work
     
-    /*PageTemplate: function(pageName, txtHeader, txtContent, txtFooter) {
-        return ('<div data-role="page" data-position="fixed" id="page' + pageName + '">'
-                + '<div data-role="header">'
-                + '<a href="#index" data-icon="back">Back</a>'
-                + txtHeader + '</div>'
-                + '<div data-role="content">' + txtContent + '</div>'
-                + '<div data-role="footer" data-position="fixed">' + txtFooter + '</div>'
-                + '</div>');
-    },*/
-    
     PageTemplate: function(tool) {
         
         // tagName: div
@@ -88,43 +78,54 @@ var WorkTool = WorkTool || {
     
     Page: function (toolName) {
         
+		// Confirm we have new tool to load
         var toolIndex = WorkTool.haveToolByName(toolName); // Returns a # or "Not Found"
         
         if ( toolIndex == "Not Found") { // 0 (zero) also evaluates to false; Screws with array index return value
-            console.log("Page: Failed to load tool " + toolName);
+            // DEBUG:
+			console.log("Page: Failed to load tool " + toolName);
             return false;
         }   
         
+		// Set up variables
         var tool = WorkTool.Tools[toolIndex];
-        
-        if ( WorkTool.loadedTool.name == undefined || this.loadedTool.name != toolName ) {
-            // Load the new tool page / Overwrite current loaded tool
-            console.log('Page: building or overwriting page for tool: ' + toolName);
-            
-            if ( document.getElementById('ToolPage') == null ) 
-            { // Build page and append to pageContainer
-                console.log('Page: Building new page for jQuery Mobile for tool: ' + toolName);
-                var newPage = "";
-                var page = "", header = "", content = "", footer = "", description = "";
+		var newPage = "", page = "", header = "", content = "", footer = "", description = "";
+		
+		// Process
+        if ( WorkTool.loadedTool.name == undefined ) { // Never loaded a tool before; Build tool page (jQuery Mobile)
+		
+            // DEBUG:
+			//console.log('Page: building page for tool: ' + toolName);
             
             newPage = $( WorkTool.PageTemplate(tool) ); 
             newPage.appendTo( $.mobile.pageContainer ); // Build Page
-            WorkTool.loadedTool = tool; // Append for jQuery Mobile
-            WorkTool.loadedTool.events(); // Add click handlers
-            $.mobile.changePage( newPage ); // Change view to Tool page
+            WorkTool.loadedTool = tool; 				// Append for jQuery Mobile
+            WorkTool.loadedTool.events(); 				// Add click handlers
+            $.mobile.changePage( newPage ); 			// Change view to Tool page
                 
-            } else { // Overwrite existing page container
-                console.log('#ToolPage found: Overwriting page details for tool: ' + tool );
-                // Modify to be everything under the <div data-role="page" ...>
-                // Replace innerHTML of <div data-role="page" ...>
-                newPage = $('#ToolPage').html(WorkTool.EverythingUnderPageTemplate(tool)); 
-                // Change page to altered #ToolPage (hopefully enhanced on pagecreate/pageshow)
-                $.mobile.changePage( $('#ToolPage') );
-            }
+		} else if (WorkTool.loadedTool.name != toolName) { // New tool after first to load; Overwrite existing jQuery Mobile page container
+		
+			// DEBUG:
+			//console.log('New tool (' + toolName + ') is different than loaded tool (' + WorkTool.loadedTool.name + ')' );
+			
+			// Unhook event handlers from old tool page (call tool method)
+			// Build new jQuery Mobile page container - everything under the <div data-role="page" ...>
+			// Replace innerHTML of <div data-role="page" ...>
+			// Update loaded tool to new tool
+			// Change page to altered #ToolPage (hopefully enhanced on pagecreate/pageshow)
+			
+			//console.log('New page data: ' + WorkTool.EverythingUnderPageTemplate(tool));
+			
+			$('#ToolPage').empty(); 		// Remove contents (supposed to remove event listeners)
+			newPage = $('#ToolPage').html(WorkTool.EverythingUnderPageTemplate(tool));
+			$('#ToolPage').enhanceWithin(); // Update with jQuery Mobile enhancement code
+			WorkTool.loadedTool = tool; 	
+			$.mobile.changePage( $('#ToolPage') );
             
-        } else {
+        } else { // Same tool is being loaded; Do not make any changes.
             // Do not do much since we are reloading the previously loaded tool.
             // Should tools have a reset or can the previous values stay?
+			// console.log('Loaded tool (' + WorkTool.loadedTool.name + ') is the same as new tool (' + toolName + '). Make no changes. Change page.');
             $.mobile.changePage( $('#ToolPage') );
         }
         
@@ -174,16 +175,41 @@ $(document).ready(function () {
 // jQuery Mobile
 // -------------
 
+var indexPageClickEventsSet = false;
+
+function clickEventForListview(){
+	if ( this.children && this.children.length > 1 )
+		return console.log("Cannot process more than child in <li>"); // Use dialog
+	else if ( this.children && this.children.length > 0 )
+		WorkTool.Page(this.children[0].innerHTML); // If <a>, get innerHTML of that
+	else
+		WorkTool.Page(this.innerHTML);
+}
+
 $(document).on('pageshow', '#index', function() {
         //alert( $('#index li').length );
-        $('#index li').map( function(number, element) {
-            $(element).on('click', function(){
-                if ( this.children && this.children.length > 1 )
-                    return console.log("Cannot process more than child in <li>"); // Use dialog
-                else if ( this.children && this.children.length > 0 )
-                    WorkTool.Page(this.children[0].innerHTML); // If <a>, get innerHTML of that
-                else
-                    WorkTool.Page(this.innerHTML);
-            });
-        });
+		
+		if ( indexPageClickEventsSet == false ) {
+		
+			$('#index li').map( function(number, element) {
+				$(element).on('click', clickEventForListview );
+			});
+			
+			indexPageClickEventsSet = true; // Do this only once. Use with global boolean.
+			//console.log('Confirm this is only set initially.');
+		}
     });
+
+/* 
+$(document).on('pagebeforecreate',function(){console.log('pagebeforecreate');});
+$(document).on('pagecreate',function(){console.log('pagecreate');});
+$(document).on('pageinit',function(){console.log('pageinit');});
+$(document).on('pagebeforehide',function(){console.log('pagebeforehide');});
+$(document).on('pagebeforeshow',function(){console.log('pagebeforeshow');});
+$(document).on('pageremove',function(){console.log('pageremove');});
+$(document).on('pageshow',function(){console.log('pageshow');});
+$(document).on('pagehide',function(){console.log('pagehide');});
+$(window).load(function () {console.log("window loaded");});
+$(window).unload(function () {console.log("window unloaded");});
+$(function () {console.log('document ready');});
+*/

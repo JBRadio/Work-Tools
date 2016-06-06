@@ -24,6 +24,7 @@ var ToolTextUppercase = ToolTextUppercase || {
                          
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
+					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br, txtaInput, br, btnProcess, br, txtaResults]};
         return content;
     }, // End of content
