@@ -119,7 +119,8 @@ var WorkTool = WorkTool || {
 			$('#ToolPage').empty(); 		// Remove contents (supposed to remove event listeners)
 			newPage = $('#ToolPage').html(WorkTool.EverythingUnderPageTemplate(tool));
 			$('#ToolPage').enhanceWithin(); // Update with jQuery Mobile enhancement code
-			WorkTool.loadedTool = tool; 	
+			WorkTool.loadedTool = tool;
+            WorkTool.loadedTool.events(); 				// Add click handlers
 			$.mobile.changePage( $('#ToolPage') );
             
         } else { // Same tool is being loaded; Do not make any changes.
@@ -178,7 +179,6 @@ $(document).ready(function () {
 $(document).on('pageinit', '#index', function() { // Initialize #index; Only happens once.
 		
     $('#index li').map( function(number, element) {
-        //$(element).on('click', clickEventForListview );
         $(element).on('click', function (){
             if ( this.children && this.children.length > 1 )
                 return console.log("Cannot process more than child in <li>"); // Use dialog

@@ -1,27 +1,154 @@
+// Class: HTML Builder
+// Features of Class:
+//  - Converts data into processed data
+//    - You can apply default values to return objects (attributes, classes, and inlineStyle, ..)
+//      A. [,,...] to [HTML{},HTML{},...] for further processing with buildHtmlString
+//          Example case: 
+//           - You have a simple array or list of items you want to make into HTML objects
+//             [0,1,...] to <li>0</li><li>1</li>... or <td>1</td><td>2</td>... or anything else
+//             [,,...] to [{tagName:li ...}, {tagName:li, ...}] to put under one <ol>
+//              Return as String or Array of strings
+//      B. [[,,],[,,],...] to [[HTML{},[HTML{}]],[...]] for further processing with buildHtmlString
+//          Example case:
+//           - You have rows of lists (table data in rows and columns, list of lists: ol, ol, ..., etc.)
+//          [["A","Bicycle","$23.00"], == [[{tagName:td,innerHTML:"A"}, {tagName:"Bicycle,...}, ...],
+//           ["B","Car","$10,000.00"]]     [{tagName:td,innerHTML:"B"}, {tagName:"Car",...}, ...]]
+//
+//      C. [[{},{},...],[{}],...] to Html { childObjects:[Html{}, Html{}]} }
+//          - You have arrays or lists of objects that you want to put as childObjects
+//          For example, I have a lists of <td> that I want to put in <tr>
+//
+// Functions of Class:
+//  - buildHtmlString: Turns simple and complicated {} into HTML Strings for HTML DOM Updates
+
 var HtmlBuilder = HtmlBuilder || {
     
-    buildHtmlString: function(objHtml) {
-        // Function is recursive as elements can be nested.
-        objHtml = objHtml || {};    
+    buildHtmlObjectsFromArray2: function (/* [[],[],...] */ arrData, /* [{},{}] */ custom ) {
+        // arrHTML = [[],[],[],...] -- basically td or li separated by arrays/rows
+        // custom = [{tag for top like tr or ol}, {tag for content like td or li}]
+        //  - childObjects will be overwritten
+        
+        if ( Array.isArray(arrData) === false ) {
+            console.log("buildHtmbuildHtmlObjectsFromArray2: Cannot process non-array: " + arrData);
+            return [];
+        }
+        
+        var retObjDataRows = [];
+        
+        for ( var i = 0; i < arrData.length; i++ ) 
+        {   
+            var topCustom = Object.assign({}, custom[0]); // Clone objects to lose reference to original
+            var dataCustom = Object.assign({},custom[1]); // Clone objects to lose reference to original
+            
+            // Create unique identifiers if necessary; buildHtmlObjectsFromArray will do the same
+            dataCustom.IdPrefix != undefined ? dataCustom.IdPrefix += '_'+i : "";
+            topCustom.IdPrefix !== undefined ? topCustom.IdPrefix += '_'+i : "";
+            
+            // Place child (rows, list items, etc.) into parent (topCustom) object
+            topCustom.childObjects = HtmlBuilder.buildHtmlObjectsFromArray( arrData[i], dataCustom )
+            
+            retObjDataRows.push(topCustom);
+        }
+        
+        return retObjDataRows; // Return [{... childObjects:{}}, {... childObjects:{}}, ...]
+    },
     
-        // tagName: div
-        // attributes: {'data-role':'page', 'data-position':'fixed', ... }
-        // classes: ['colorRed', 'big', ...]
-        // inlineStyle: {'color':'red', ...}
-        // childObjects: [{child1}, {child2}]
+    buildHtmlObjectsFromArray: function ( /* [] */ arrHtml , /* {} */ custom ) {
+        // Arguments: [,,,], {tagName:, ...}
+        // Returns: [{},{},{}] or "<tag>...</tag>"
+        // Features:
+        //  - Turns data [,,,] into objects [{},{},{}] to create similar objects
+        
+        // VALIDATION / CODE PROCESS PROTECTION
+        custom = custom || {};
+        
+        if ( Array.isArray(arrHtml) === false ) {
+            console.log("buildHtmlObjects: Cannot process non-array: " + arrHtml);
+            return [];
+        }
+        
+        if ( arrHtml.length === 0 ) {
+            console.log("buildHtmlObjects: Cannot process empty array: " + arrHtml);
+            return [];
+        }
+        
+        // PROCESSING
+        var retArray = arrHtml.map(function(item, index, originalArray){
+            var retObj = {attributes: custom.attributes || {},
+                          childObjects: custom.childObjects || [],
+                          classes: custom.classes || [],
+                          innerHTML: item || "",
+                          inlineStyle: custom.inlineStyle || {},
+                          tagName: custom.tagName.trim() || ""};
+            
+            if ( custom.IdPrefix !== undefined )
+                retObj.attributes.id = custom.IdPrefix + '_' + index;
+            
+            return retObj;
+        });
+        
+        // RETURN
+        return retArray;
+    },
+    
+    buildHtmlString: function( /* {} */ objHtml) {
+        // Arguments: {}
+        // Returns: String
+        // Features:
+        //  - Works on a single or nested element (one or many children)
+        //  - Function is recursive as elements can be nested - child elements/objects.
+        //  - Should work with all html DOM elements
+        
+        objHtml = objHtml || {};
+        
+        var attributes  = objHtml.attributes || {};     // attributes: {'data-role':'page', ... }
+        var childObjects = objHtml.childObjects || [];  // childObjects: [{child1}, {child2}]
+        var classes     = objHtml.classes || [];        // classes: ['colorRed', 'big', ...]
+        var innerHTML   = objHtml.innerHTML || "";      // innerHtml: 'Inside HTML or text'
+        var style       = objHtml.inlineStyle || {};    // inlineStyle: {'color':'red', ...}
+        var tagName     = objHtml.tagName;              // tagName: div
         // childStrings: ['<div>...</div>', '<span>...</span>]
         //  - Cannot have childObjects and childStrings
-        // innerHtml: 'Inside HTML or text'
-        var attributes  = objHtml.attributes || {};
-        var childObjects = objHtml.childObjects || [];
-        var classes     = objHtml.classes || [];
-        var innerHTML   = objHtml.innerHTML || "";
-        var style       = objHtml.inlineStyle || {};
-        var tagName     = objHtml.tagName;
+        
+        //console.log(objHtml);
+        
+        // INPUT ARGUMENTS
+        // Simple Examples:
+        // ---------------
+        // {tagName: br}
+        // {tagName: button, attributes: {id:'btnHelloWorld'}, innerHTML:'Hello World'}
+        
+        // Nested Examples:
+        // ---------------
+        // ul, ol
+        // {tagName: ol, attributes: {...}, classes: [,,,], inlineStyle: {...},
+        //  childObjects: [{tagName: li, ... childObjects: [{tagName: ol, ... }]},
+        //                 {tagName: li, ... },
+        //                 ...]}
+        
+        // table
+        // See Mozilla for table flow content:
+        //     https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
+        // {tagName: table, ... 
+        //  childObjects: [{tagName: caption, innerHTML:'A caption!'},
+        //                 {tagName: colgroup ... },
+        //                 {tagName: thead ...
+        //                 childObjects: [{tagName: tr ...
+        //                                 childObjects:[{tagName:th, ...}, {tagName:th, ...}]}]},
+        //                 {tagName: tfoot ...
+        //                 childObjects: [{tagName: tr ...
+        //                                 childObjects:[{tagName:th, ...}, {tagName:th, ...}]}]},
+        //                 {tagName: tbody ...
+        //                 childObjects: [{tagName: tr ...
+        //                                 childObjects:[{tagName:td, ...}, {tagName:td, ...}]},
+        // ...........
+        //                                {tagName: tr ...
+        //                                 childObjects:[{tagName:td, ...}, {tagName:td, ...}]}]}]},
+        
         
         
         if (!tagName)
-            return console.log('buildHtmlString: No tagName found for ' + JSON.stringify(objHtml) );
+            console.log('buildHtmlString: No tagName found for ' + JSON.stringify(objHtml) ), return "";
         
         if (tagName == "br")
             return "<br />";
@@ -56,6 +183,11 @@ var HtmlBuilder = HtmlBuilder || {
         ret += '"'; // Close quotation for style
 
         ret += '>'; // Close head/opening tag
+        
+        // Return strings for elements that have no child or closing tags: col (within colgroup)
+        // - These tags may have a style or attribute
+        if ( tagName == 'col' )
+            return ret;
 
         // Process Child HTML Objects
         if ( childObjects != undefined && childObjects.length != undefined && Array.isArray(childObjects) ) {
@@ -66,10 +198,12 @@ var HtmlBuilder = HtmlBuilder || {
         }
         
         // Process innerHTML
-        if ( innerHTML != undefined && typeof innerHTML == "string" )
-            ret += innerHTML;
+        //if ( innerHTML != undefined && typeof innerHTML == "string" ) // Was restricting numbers
+        if ( innerHTML != undefined ) ret += innerHTML;
 
         ret += '</' + objHtml.tagName + '>'; // Closing tag
+        
+        //console.log(ret);
         
         return ret;   
     },
@@ -77,30 +211,35 @@ var HtmlBuilder = HtmlBuilder || {
 	// ----------------- HTML Tables <table> -------------------
 
 	// Javascript function to build <table> string.
-	//  - Consider using Emmet to quickly build HTML text if static.
-	buildTableHTML: function (tblAttributes, dataArray) {
+	//  - Consider using Emmet (Zen coding) to quickly build HTML text if static.
+    // IMPROVEMENTS:
+    //  - Allow inline style or use buildHtmlString instead
+	buildTableHTML: function (/* [] */ tblAttributes, /* [] */ dataArray) {
     
 		if ( Array.isArray(tblAttributes) == false ) return ""; // Invalid: Should be an empty [] if empty
 		if ( Array.isArray(dataArray) == false ) return ""; // Invalid: table data should be in an array
     
-		var retText = "<table "; // Open Tag
+		var retText = "<table "; // Create open <table tag
     
-		for ( var i = 0; i < tblAttributes.length; i++) retText = " " + tblAttributes[i]; // <table attributes
+        // Process <table attributes
+		for ( var i = 0; i < tblAttributes.length; i++) retText = " " + tblAttributes[i]; 
 		
-		retText += ">"; // Close of open tag
+		retText += ">"; // Close <table ...> open tag
 		
+        // Process <tr> table rows
 		for ( var y = 0; y < dataArray.length; y++) {
-			retText += "<tr>";
+			retText += "<tr>"; // Create <tr> open tag
 			
+            // Create <td> tags
 			if ( Array.isArray(dataArray[y]) )
 				for (var x = 0; x < dataArray[y].length; x++) retText += "<td>" + dataArray[y][x] + "</td>";
 			else
 				retText += "<td>" + dataArray[y] + "</td>";
 				
-			retText += "</tr>";
+			retText += "</tr>"; // Close </tr> tag
 		}
 		 
-		retText += "</table>";
+		retText += "</table>"; // Close </table> tag
 		return retText;
 	},
 
@@ -172,3 +311,21 @@ var HtmlBuilder = HtmlBuilder || {
 	}
 	
 };
+
+
+// DEBUG: buildHtmlObjectsFromArray( /* [] */ arrHtml , /* {} */ custom )
+// console.log( HtmlBuilder.buildHtmlObjectsFromArray([1,2,3], {tagName:'td', IdPrefix:'cell'}) );
+
+// DEBUG: buildHtmlObjectsFromArray2 (/* [[],[],...] */ arrHtml, /* [{parent},{child}] */ custom )
+/*
+var tblRowData = [['Text:', 'Nice Text Here' ],
+                  ['Character count:', 'Numbered result' ],
+                  ['Word count:', 'Numbered result' ],
+                  ['Line count:', 'Numbered result' ]];
+
+var parentTag = {tagName:'tr', IdPrefix:'TableRow'};
+var childTag = {tagName:'td', IdPrefix:'Cell'}
+var tblRowObjData = HtmlBuilder.buildHtmlObjectsFromArray2( tblRowData, [parentTag,childTag]);
+
+console.log(tblRowObjData);
+*/

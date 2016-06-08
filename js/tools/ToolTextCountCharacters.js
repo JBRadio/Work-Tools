@@ -53,7 +53,15 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
                           ['Word count:', wordCount],
                           ['Line count:', lineCount]];
         
-        var tbl = HtmlBuilder.buildTableHTML([], tblRowData);
+        //var tbl = HtmlBuilder.buildTableHTML([], tblRowData);
+            
+        var parentTag = {tagName:'tr', IdPrefix:'TableRow'};
+        var childTag = {tagName:'td', IdPrefix:'Cell'}
+        var tblRowObjData = HtmlBuilder.buildHtmlObjectsFromArray2( tblRowData, [parentTag,childTag]);
+            //console.log(tblRowObjData);
+        var tbl = HtmlBuilder.buildHtmlString({tagName:'table',
+                                               childObjects:tblRowObjData});
+            //console.log(tbl);
           
         $('#txtResults').html( tbl );
         $('#txtaInput').focus();
