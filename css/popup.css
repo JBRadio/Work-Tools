@@ -50,3 +50,19 @@ div[data-role="footer"] {
     bottom:0px;
     width: 100%;*/
 }
+
+div[data-role="content"] {
+    /* Due to fixed position footer, we need to shorten content height and let it
+       handle its own overflow. If there is no footer, this can likely be removed.
+    */
+    overflow:auto;
+    max-height:460px;
+}
+
+/* --------- Lists ------------ */
+
+ul.circle {list-style-type: circle;}
+ul.square {list-style-type: square;}
+ol.upper-roman {list-style-type: upper-roman;}
+ol.lower-alpha {list-style-type: lower-alpha;}
+

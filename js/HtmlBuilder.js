@@ -23,7 +23,62 @@
 
 var HtmlBuilder = HtmlBuilder || {
     
+    buildHtmlLinkObjectsFromArray: function (/* [[],[]] */ arrData, custom ) {
+        // Turn a 2 dimensional array into a one dimensional array building links - HTML{}
+        //  arrData = [[innerHTML, href], ...]
+        //  custom = {attributes, styles, classes}
+        
+        // Returns: A simple one dimensional array
+        //  [{}, {}, ... ]
+        
+        custom = custom || {};
+        
+        if ( Array.isArray(arrData) === false ) {
+            console.log("buildHtmlLinkObjectsFromArray: Cannot process non-array: " + arrData);
+            return [];
+        }
+        
+        var retLinksArray = [];
+        
+        for ( var i = 0; i < arrData.length; i++ ) 
+        {   
+            var innerHTML   = arrData[i][0];
+            var href        = arrData[i][1];
+            
+            var cloneCopy = Object.assign({}, custom); // Clone objects to lose reference to original
+            
+            var retObj = {tagName: 'a',
+                          attributes: {},
+                          childObjects: cloneCopy.childObjects || [],
+                          classes: cloneCopy.classes || [],
+                          innerHTML: innerHTML,
+                          inlineStyle: cloneCopy.inlineStyle || {}
+                         };
+            
+            for (var key in cloneCopy.attributes) {
+                if ( cloneCopy.hasOwnProperty )
+                    retObj.attributes[key] = cloneCopy.attributes[key];
+            }
+            
+            retObj.attributes['href'] = href;
+            retObj.IdPrefix != undefined ? retObj.IdPrefix += '_'+i : "";
+            
+            //retLinksArray.push(retObj);
+            retLinksArray.push( HtmlBuilder.buildHtmlString(retObj) );
+        }
+        
+        return retLinksArray;
+    },
+    
     buildHtmlObjectsFromArray2: function (/* [[],[],...] */ arrData, /* [{},{}] */ custom ) {
+        // Turn an array of data into an array of HTML {} to be used with other functions.
+        // Examples:
+        //   [[2,3,4], [], ...] >> [[{tagName: li, innerHTML: 2}, ...], [], ...]
+        // Use Cases
+        //   1. Simple elements where the value is the innerHTML of a <td> or <li> and you are 
+        //      defining the parent (lets say TR) and child (TD/TH) at the same time.
+        //      - custom {parent, child} >> Defining the ol/ul for li or tr for td
+        
         // arrHTML = [[],[],[],...] -- basically td or li separated by arrays/rows
         // custom = [{tag for top like tr or ol}, {tag for content like td or li}]
         //  - childObjects will be overwritten
@@ -146,13 +201,25 @@ var HtmlBuilder = HtmlBuilder || {
         //                                 childObjects:[{tagName:td, ...}, {tagName:td, ...}]}]}]},
         
         
+        // VALIDATION
+        // - If string, return it as it is, likely it's been built already
+        // - Otherwise, check to see if a tagName is present for processing.
         
-        if (!tagName)
-            console.log('buildHtmlString: No tagName found for ' + JSON.stringify(objHtml) ), return "";
+        if ( typeof objHtml === "string" )
+            return objHtml; // likely it's been built already
         
-        if (tagName == "br")
-            return "<br />";
+        if (!tagName) {
+            console.log('buildHtmlString: No tagName found for ' + JSON.stringify(objHtml) )
+            return "";
+        }
         
+        // RETURN SHORT TAGS: They do not need additional processing.
+        var shortTags = {br:1, hr:2};
+        
+        if (shortTags[tagName])
+            return "<" + tagName + "/>";
+        
+        // PROCESS: Open tag, attributes, classes, styles, innerHTML / children, Close Tag
         var ret  = "";
             ret += '<' + objHtml.tagName;
     
@@ -182,6 +249,13 @@ var HtmlBuilder = HtmlBuilder || {
         }
         ret += '"'; // Close quotation for style
 
+        // For self closing tags with no innerHTML (different than <br /> like <input ... />)
+        var shortTags2 = {input:1};
+        if (shortTags2[tagName]) {
+            ret += '/>';
+            return ret;
+        }
+        
         ret += '>'; // Close head/opening tag
         
         // Return strings for elements that have no child or closing tags: col (within colgroup)
@@ -328,4 +402,15 @@ var childTag = {tagName:'td', IdPrefix:'Cell'}
 var tblRowObjData = HtmlBuilder.buildHtmlObjectsFromArray2( tblRowData, [parentTag,childTag]);
 
 console.log(tblRowObjData);
+*/
+
+
+// DEBUG: buildHtmlLinkObjectsFromArray: function (/* [[innerHTML, href],[]] */ arrData, custom )
+/*
+var data = [['Wikipedia (en): ASCII', 'https://en.wikipedia.org/wiki/ASCII'],
+               ['Ascii-code.com: ASCII Code - The extended ASCII table', 'http://www.ascii-code.com/']];
+
+var customTag = {attributes: {target:'blank'}, classes:['ui-content'], inlineStyle:{color:'red'}}; 
+
+console.log( HtmlBuilder.buildHtmlLinkObjectsFromArray(data, customTag) );
 */

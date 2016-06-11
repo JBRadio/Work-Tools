@@ -53,6 +53,8 @@ VERSION HISTORY
     <!-- script: Require include for jQuery Mobile: jQuery, jQuery Mobile, jQuery Mobile CSS (above) -->
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.js"></script>
+    
+    <script src="js/SortHelper.js"></script>
     <script src="js/HtmlBuilder.js"></script>
     <script src="js/popup.js"></script>
     <!-- Additional JavaScript references are added at the end of <body> -->
@@ -70,8 +72,12 @@ VERSION HISTORY
             <h1>Work Tools</h1>
         </div> <!-- header -->
         
-        <div data-role="content" class="ui-content">
-            <ul data-role="listview" data-inset="true" data-filter="true">
+        <div id='divMainContent' data-role="content" class="ui-content">
+            <ul id='ulMainList' data-role="listview" data-inset="true" data-filter="true">
+                <li data-role="list-divider">ASCII</li>
+                <li><a href="">ASCII Table</a></li>
+               
+               
                 <li data-role="list-divider">Text</li>
                 <li><a href="">Count Characters</a></li>
 				<li><a href="">Uppercase</a></li>
@@ -97,6 +103,8 @@ VERSION HISTORY
     <script src="js/tools/ToolTextCountCharacters.js"></script>
     <script src="js/tools/ToolTextUppercase.js"></script>
 	<script src="js/tools/ToolTextLowercase.js"></script>
+	<script src="js/tools/ToolAsciiAsciiTable.js"></script>
+	<script src="js/tools/ToolTextAddPrefixSuffix.js"></script>
 
 </body>
 </html>

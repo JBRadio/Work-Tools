@@ -177,7 +177,24 @@ $(document).ready(function () {
 // -------------
 
 $(document).on('pageinit', '#index', function() { // Initialize #index; Only happens once.
-		
+
+    // 1.) Set up <ul> with tools <li>
+    $('#ulMainList').empty();
+    var toolList = "";
+    
+    sortObjectArrayByString(WorkTool.Tools, 'name');
+    
+    for ( var i = 0; i < WorkTool.Tools.length; i++ ) {
+        console.log( WorkTool.Tools[i].name );
+        if ( WorkTool.Tools[i].name != undefined )
+        toolList += '<li><a href="">' + WorkTool.Tools[i].name + '</a></li>';
+    }
+    
+    $('#ulMainList').html(toolList);
+    $('#ulMainList').listview('refresh'); // do not use .enhanceWithin();
+    
+    
+    // 2.) Set up Event Listeners for #index <li> items
     $('#index li').map( function(number, element) {
         $(element).on('click', function (){
             if ( this.children && this.children.length > 1 )
