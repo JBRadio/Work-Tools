@@ -337,6 +337,8 @@ var ToolAsciiAsciiTable = ToolAsciiAsciiTable || {
                               
         var tableAscii = {tagName: 'table', 
                           //attributes: {'data-role':'table', 'data-mode':'columntoggle', 'id':'tblAscii', 'data-filter':'true'},
+                          // If you add column toggle and filter, you need to change the width of the filter search box to 300px.
+                          // Also, you need to set data-priority on the table head cells.
                           attributes: {'id':'tblAscii', 'data-filter':'true'},
                           childObjects: [tableAsciiHeader, 
                                          //tableAsciiFooter, 
