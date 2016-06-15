@@ -94,6 +94,7 @@ var ToolCodeAlignment = ToolCodeAlignment || {
         var listSQLHeader = {tagName: 'h2', innerHTML: 'SQL'};
         var listSQLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
             ['Instant SQL Formatter', 'http://www.dpriver.com/pp/sqlformat.htm'],
+            ['SQLLint', 'http://sqllint.com/'],
             ['SQL Formatter (sql-format.com)', 'http://www.sql-format.com/'],
             ['SQL Formatter (freeformatter.com)', 'http://www.freeformatter.com/sql-formatter.html'],
             ['SQL (MySQL) Beautify', 'http://www.cleancss.com/sql-beautify/']
