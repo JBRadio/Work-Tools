@@ -23,6 +23,17 @@
 
 var HtmlBuilder = HtmlBuilder || {
     
+    // Build a simple link list
+    buildHtmlLinkList: function(arrLinkData, custom) {
+        custom = custom || {attributes: {target:'blank'}}; // default make links just open in new tab
+        
+        var listItems = HtmlBuilder.buildHtmlLinkObjectsFromArray(/* [['name','href'], ...] */ arrLinkData,
+            /* {attributes: {target:'blank'}} */ custom            
+        ); // building <a> string text for <li> innerHTML
+    
+        return {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listItems, {tagName: 'li'} )};
+    },
+    
     buildHtmlLinkObjectsFromArray: function (/* [[],[]] */ arrData, custom ) {
         // Turn a 2 dimensional array into a one dimensional array building links - HTML{}
         //  arrData = [[innerHTML, href], ...]
@@ -318,24 +329,61 @@ var HtmlBuilder = HtmlBuilder || {
 	},
 
 	// Javascript function to build <table> string. Uses an {}
-	buildHTMLStringTable: function (data) {
-		var ret = "<";
-			ret += data.tag;
-		
-		if ( data.attributes && data.attributes.length > 0 )
-			for (var i = 0; i < data.attributes.length; i++) ret += " " + data.attributes[i]; // #.) Opening Tag - Attributes
+	buildHTMLStringTable: function (table) {
+        // table = {attributes:{}, classes:[], inlineStyle:{}, thead:[], tfoot:[], tbody:[][]}
+        
+		var ret = "<table ";
+        
+		if ( table.attributes !== undefined ) ret += HtmlBuilder.buildStringAttributes(table.attributes);
+        
+        if ( table.classes !== undefined ) ret += HtmlBuilder.buildStringClasses(table.classes);
+        
+        if ( table.inlineStyle !== undefined ) ret += HtmlBuilder.buildStringStyles(table.inlineStyle);
 		
 		ret += ">"; // End of <table>
-		
-		for (var y = 0; y < data.rowData.length; y++) { // #.) Build <tr>
-			ret += '<tr>';
-			
-			for (var x = 0; x < data.rowData[y].length; x++) ret += buildHTMLString( {tag: 'td', innerHTML:data.rowData[y][x]} ); // #.) Build <th>, <td>
-			
-			ret += '</tr>';
-		}
+        
+        if ( table.caption !== undefined && table.caption.length > 0 )
+            ret += '<caption>' + table.caption + '</caption>';
+        
+        // Process <thead>
+        if ( table.thead !== undefined ) {
+            ret += '<thead>';
+            ret += '<tr>';
+            
+            for (var i = 0; i < table.thead.length; i++) ret += '<th>' + table.thead[i] + '</th>';
+            
+            ret += '</tr>';
+            ret += '</thead>';
+        }
+            
+		// Process <tfoot>
+        if ( table.tfoot !== undefined ) {
+            ret += '<tfoot>';
+            ret += '<tr>';
+            
+            for (var i = 0; i < table.tfoot.length; i++) ret += '<th>' + table.tfoot[i] + '</th>';
+            
+            ret += '</tr>';
+            ret += '</tfoot>';
+        }
+        
+        // Process <tbody>
+        if ( table.tbody !== undefined && table.tbody.length > 0 ) {
+            
+            ret += '<tbody>';
+            
+            for (var y = 0; y < table.tbody.length; y++) {
+                ret += '<tr>';
 
-		ret += '</' + data.tag + '>'; // #.) Close </table>
+                for (var x = 0; x < table.tbody[y].length; x++) ret += '<td>' + table.tbody[y][x] + '</td>';
+
+                ret += '</tr>';
+            }
+            
+            ret += '</tbody>';
+        }
+
+		ret += '</table>'; // #.) Close </table>
 		return ret;
 	},
 
@@ -382,8 +430,52 @@ var HtmlBuilder = HtmlBuilder || {
 		
 		retText += "</" + tagName + ">"; // Close list
 		return retText;
-	}
-	
+	},
+    
+    // Process attributes
+    buildStringAttributes: function (attributes) {
+        console.log('Function called: buildStringAttributes');
+        
+        var rText = "";
+        
+        if ( attributes != undefined ) {
+            for ( var key in attributes ) {
+                if ( attributes.hasOwnProperty(key) ) {
+                    rText += ' ' + key + '="' + attributes[key] + '"'; // Remember to quote values
+                    console.log('key: ' + key + ', value: ' + attributes[key]);
+                }
+            }
+        }
+        
+        return rText;
+    },
+    
+    // Process classes
+    buildStringClasses: function (classes) {
+        
+        var rText = ' class="';
+        
+        if ( classes != undefined && Array.isArray(classes) == true && classes.length > 0 ) {
+            for ( var i = 0; i < classes.length; i++ )
+                rText += ' ' + classes[i];
+        }
+        rText += '"'; // close class=""
+        return rText;
+    },
+    
+    // Process style
+    buildStringStyles: function (style) {
+        
+        var rText = ' style="';
+        if ( style != undefined ) {
+            for ( var key in style ) {
+                if ( style.hasOwnProperty(key) )
+                    rText += ' ' + key + ":" + style[key] + ";";
+            }
+        }
+        rText += '"'; // Close quotation for style
+        return rText;
+    }
 };
 
 

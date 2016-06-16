@@ -16,91 +16,87 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
         // Searchable Documentation Sites
         // ------------------------------
         var listSearchHeader = {tagName: 'h2', innerHTML: 'Searchable Documentation - Multiple'};
-        var listSearchItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listSearch = HtmlBuilder.buildHtmlLinkList([
             ['DevDocs API Documentation', 'http://devdocs.io/']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listSearch = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listSearchItems, {tagName: 'li'} )};
+            ]);
         
         // CSS (Formatter, Optimizer, Compression)
         // ---
         var listCSSHeader = {tagName: 'h2', innerHTML: 'CSS'};
-        var listCSSItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listCSS = HtmlBuilder.buildHtmlLinkList([
             ['CSS | MDN - Mozilla Developer Network', 'https://developer.mozilla.org/en-US/docs/Web/CSS'],
-            ['CSS Tutorial (w3schools.com)', 'http://www.w3schools.com/css/default.asp']
+            ['CSS Tutorial (w3schools.com)', 'http://www.w3schools.com/css/default.asp'],
+            ['CSS (tutorialspark.com)', 'http://www.tutorialspark.com/css3/index.php']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listCSS = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listCSSItems, {tagName: 'li'} )};
+            ]);
         
         // Google Apps Script
         // ------------------
         var listGASHeader = {tagName: 'h2', innerHTML: 'Google Apps Script'};
-        var listGASItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listGAS = HtmlBuilder.buildHtmlLinkList([
             ['Overview of Google Apps Script (google.com)', 'https://developers.google.com/apps-script/overview'],
             ['Tutorials (google.com)'], ['https://developers.google.com/apps-script/articles']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listGAS = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listGASItems, {tagName: 'li'} )};
+            ]);
         
         // Javascript
         // ----------
         var listJSHeader = {tagName: 'h2', innerHTML: 'JavaScript'};
-        var listJSItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listJS = HtmlBuilder.buildHtmlLinkList([
             ['JavaScript | MDN - Mozilla Developer Network', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'],
-            ['JavaScript Tutorial (w3schools.com)', 'http://www.w3schools.com/js/default.asp']
+            ['JavaScript Tutorial (w3schools.com)', 'http://www.w3schools.com/js/default.asp'],
+            ['JavaScript Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/javascript/index.htm'],
+            ['JavaScript (tutorialspark.com)', 'http://www.tutorialspark.com/javascript/index.php'],
+            ['AJAX Tutorial (w3schools.com)', 'http://www.w3schools.com/ajax/default.asp']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listJS = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listJSItems, {tagName: 'li'} )};
+            ]);
         
         // JSON (Javascript Object Notation)
         // ----
         var listJSONHeader = {tagName: 'h2', innerHTML: 'JSON'};
-        var listJSONItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listJSON = HtmlBuilder.buildHtmlLinkList([
             ['JSON', 'http://www.json.org/'],
             ['JSON Tutorial (w3schools.com)', 'http://www.w3schools.com/json/']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listJSON = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listJSONItems, {tagName: 'li'} )};
+            ]);
         
         // JSON-LD (Javascript Object Notation Linked Data)
         // ----
         var listJSONLDHeader = {tagName: 'h2', innerHTML: 'JSON-LD (Linked Data)'};
-        var listJSONLDItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listJSONLD = HtmlBuilder.buildHtmlLinkList([
             ['JSON-LD', 'http://json-ld.org/']
             //['name','href'],
-            ],
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listJSONLD = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listJSONLDItems, {tagName: 'li'} )};
+            ]);
+        
+        // jQuery
+        // ------
+        http://www.tutorialspark.com/jquery/index.php
+        var listJQUERYHeader = {tagName: 'h2', innerHTML: 'jQuery'};
+        var listJQUERY = HtmlBuilder.buildHtmlLinkList([
+            ['jQuery (jquery.com)', 'https://jquery.com/'],
+            ['jQuery (tutorialspark.com)', 'http://www.tutorialspark.com/jquery/index.php'],
+            ['jQuery Quick API Reference', 'https://oscarotero.com/jquery/'],
+            ['jQuery Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/jquery/'],
+            ['jQuery Tutorials (w3schools.com)', 'http://www.w3schools.com/jquery/'],
+            ['jQuery Mobile (jquerymobile.com)', 'http://jquerymobile.com/'],
+            ['jQuery Mobile Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/jquery_mobile/index.htm'],
+            ['jQuery Mobile Tutorials (w3schools.com)', 'http://www.w3schools.com/jquerymobile/default.asp'],
+            ['jQuery UI (jqueryui.com)', 'http://jqueryui.com/'],
+            ['jQuery UI Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/jqueryui/index.htm'],
+            ['QUnit (qunitjs.com)', 'http://qunitjs.com/']
+            //['name','href'],
+            ]);
         
         // HTML
         // ----
-        var listHTMLHeader = {tagName: 'h2', innerHTML: 'HTML'};
-        var listHTMLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listHTMLHeader = {tagName: 'h2', innerHTML: 'HTML'};    
+        var listHTML = HtmlBuilder.buildHtmlLinkList([
             ['HTML(5) Tutorial (w3schools.com)', 'http://www.w3schools.com/html/default.asp'],
-            ['HTML | MDN - Mozilla Developer Network' , 'https://developer.mozilla.org/en-US/docs/Web/HTML']
+            ['HTML | MDN - Mozilla Developer Network' , 'https://developer.mozilla.org/en-US/docs/Web/HTML'],
+            ['HTML5 (tutorialspark.com)', 'http://www.tutorialspark.com/html5/index.php']
             //['name','href'],
-            ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var listHTML = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listHTMLItems, {tagName: 'li'} )};
+            ]);
         
         // Regular Expression
         // http://www.webtoolkitonline.com/regular-expression-tester.html
@@ -108,39 +104,32 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
         // PHP
         // ---
         var listPHPHeader = {tagName: 'h2', innerHTML: 'PHP'};
-        var listPHPItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['PHP Tutorial (w3schools.com)', 'http://www.w3schools.com/php/default.asp']
+        var listPHP = HtmlBuilder.buildHtmlLinkList([
+            ['PHP Tutorial (w3schools.com)', 'http://www.w3schools.com/php/default.asp'],
+            ['PHP Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/php/index.htm'],
+            ['PHP 7 Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/php7/index.htm']
             //['name','href'],
-            ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
+            ]);
         
-        var listPHP = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listPHPItems, {tagName: 'li'} )};
         
         // SQL (Structured Query Syntax)
         // ---
         var listSQLHeader = {tagName: 'h2', innerHTML: 'SQL'};
-        var listSQLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var listSQL = HtmlBuilder.buildHtmlLinkList([
             ['SQL Tutorial (w3schools.com)', 'http://www.w3schools.com/sql/default.asp']
             //['name','href'],
-            ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-        
-        var listSQL = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listSQLItems, {tagName: 'li'} )};
+            ]);
         
         // XML
         // ---
         var listXMLHeader = {tagName: 'h2', innerHTML: 'XML'};
-        var listXMLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['XML Tutorial (w3schools.com)', 'http://www.w3schools.com/xml/default.asp']
+        var listXML = HtmlBuilder.buildHtmlLinkList([
+            ['DTD Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/dtd/index.htm'],
+            ['XML Tutorial (w3schools.com)', 'http://www.w3schools.com/xml/default.asp'],
+            ['XML DOM Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/dom/index.htm'],
+            ['XPATH Tutorial (tutorialspoint.com)', 'http://www.tutorialspoint.com/xpath/index.htm']
             //['name','href'],
-            ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-        
-    
-        var listXML = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listXMLItems, {tagName: 'li'} )};
+            ]);
         
         // XPATH
         // http://www.webtoolkitonline.com/xml-xpath-tester.html
@@ -148,15 +137,9 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
         // See Also
         // --------
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
-        var seeAlsoItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['Minification (programming)', 'https://en.wikipedia.org/wiki/Minification_(programming)']
+        var seeAlso = HtmlBuilder.buildHtmlLinkList([
             //['name','href'],
-            ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-        
-    
-        var seeAlso = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( seeAlsoItems, {tagName: 'li'} )};
+            ]);
         
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
@@ -169,10 +152,11 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
                                      listJSHeader, listJS,
                                      listJSONHeader, listJSON,
                                      listJSONLDHeader, listJSONLD,
+                                     listJQUERYHeader, listJQUERY,
                                      listPHPHeader, listPHP,
                                      listSQLHeader, listSQL,
                                      listXMLHeader, listXML,
-                                     seeAlsoHeader, seeAlso
+                                     //seeAlsoHeader, seeAlso
                                     ]};
         return content;
     }, // End of content

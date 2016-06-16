@@ -1,6 +1,7 @@
 var ToolCodeMinify = ToolCodeMinify || {
     
     name: 'Code Minify/Compression',
+    category: 'Code',
     description: 'Display links to free online sites that will minify or compress code.',
     header: 'Code Minify/Compression', // Title to appear in Tool Page
     //parameter: true,
@@ -20,7 +21,8 @@ var ToolCodeMinify = ToolCodeMinify || {
             ['CSS Minifier (freeformatter.com)', 'http://www.freeformatter.com/css-minifier.html'],
             ['CSS Minifier (cssminifier.com)', 'https://cssminifier.com/'],
             ['CSS Minifier (webtoolkitonline.com)', 'http://www.webtoolkitonline.com/css-minifier.html'],
-            ['Minify - JavaScript and CSS minifier', 'http://www.minifier.org/']
+            ['Minify - JavaScript and CSS minifier', 'http://www.minifier.org/'],
+            ['Online CSS Minifier', 'http://www.tutorialspoint.com/online_css_minifier.htm']
             //['name','href'],
             ],
             {attributes: {target:'blank'}}
@@ -99,6 +101,7 @@ var ToolCodeMinify = ToolCodeMinify || {
         // ---
         var listXMLHeader = {tagName: 'h2', innerHTML: 'XML'};
         var listXMLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+            ['Online XML Minifier', 'http://www.tutorialspoint.com/online_xml_minifier.htm'],
             ['XML Minifier', 'http://www.webtoolkitonline.com/xml-minifier.html']
             //['name','href'],
             ], 

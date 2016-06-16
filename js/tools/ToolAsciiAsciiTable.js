@@ -1,6 +1,7 @@
 var ToolAsciiAsciiTable = ToolAsciiAsciiTable || {
     
     name: 'ASCII Table',
+    category: 'Encode/Decode',
     description: 'Display ASCII Table and provide a lookup and some information.',
     header: 'ASCII Table', // Title to appear in Tool Page
     //parameter: true,
@@ -27,40 +28,11 @@ var ToolAsciiAsciiTable = ToolAsciiAsciiTable || {
         
         // LIST (ul): ASCII Links
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
-        var seeAlsoLinks = HtmlBuilder.buildHtmlLinkObjectsFromArray([
+        var seeAlsoLinkList = HtmlBuilder.buildHtmlLinkList([
             ['Wikipedia (en): ASCII', 'https://en.wikipedia.org/wiki/ASCII'],
             ['Ascii-code.com: ASCII Code - The extended ASCII table', 'http://www.ascii-code.com/']
-                                                                     ], 
-            {attributes: {target:'blank'}}
-        ); // building <a> string text for <li> innerHTML
-    
-        var seeAlsoLinkList = {tagName: 'ul',
-                               childObjects: HtmlBuilder.buildHtmlObjectsFromArray( seeAlsoLinks, {tagName: 'li'} )};
-        
-        /*
-        See tables about ASCII codes from these websites
-        - https://en.wikipedia.org/wiki/ASCII
-        - http://www.ascii-code.com/
-        Table headers: Decimal, Hex, Oct, Char/Glyph/Symbol, HTML Number, HTML Name, Bin, Description
-        - Also see: 
-        IBM Scan Codes, EBCDIC - http://www.lookuptables.com/ebcdic_scancodes.php
-        */
-        
-        var tableAsciiHeaderData = ["DEC","OCT","HEX","BIN","Symbol","HTML Number","HTML Name","Description"];
-        
-        var tableAsciiHeaderRow = {tagName:'tr',
-                                   childObjects: HtmlBuilder.buildHtmlObjectsFromArray ( tableAsciiHeaderData, 
-                                                                                        {tagName:'th',
-                                                                                         inlineStyle:{'border-bottom':'1px solid #d6d6d6',
-                                                                                                      'border-bottom':'1px solid rgba(0,0,0,.1)',
-                                                                                                      'font-size':'.7em',
-                                                                                                      'font-weight':'bold'}
-                                                                                        }
-                                                                                       )
-                                  };
-        
-        var tableAsciiHeader = {tagName:'thead', childObjects: [tableAsciiHeaderRow]};
-        var tableAsciiFooter = {tagName:'tfoot', childObjects: [tableAsciiHeaderRow]};
+            //['name','href'],
+            ]);
         
         var tableAsciiData = [
         ["0","000","00","00000000","NUL","&amp;#000;"," ","Null char"],
@@ -323,26 +295,15 @@ var ToolAsciiAsciiTable = ToolAsciiAsciiTable || {
         ["255","377","FF","11111111","ÿ","&amp;#255;","&amp;yuml;","Latin small letter y with diaeresis"]
         ];
         
-        var tableAsciiDataRow = HtmlBuilder.buildHtmlObjectsFromArray2( tableAsciiData, [{tagName: 'tr'}, 
-                                                                             {tagName: 'td',
-                                                                             inlineStyle:{'border-bottom':'1px solid #b2abab',
-                                                                                         'font-size':'.7em',
-                                                                                         'font-weight':'normal'}
-                                                                             }
-                                                                                        ]
-                                                                      );
         
-        var tableAsciiBody = {tagName: 'tbody',
-                              childObjects: tableAsciiDataRow};
-                              
-        var tableAscii = {tagName: 'table', 
-                          //attributes: {'data-role':'table', 'data-mode':'columntoggle', 'id':'tblAscii', 'data-filter':'true'},
-                          // If you add column toggle and filter, you need to change the width of the filter search box to 300px.
-                          // Also, you need to set data-priority on the table head cells.
-                          attributes: {'id':'tblAscii', 'data-filter':'true'},
-                          childObjects: [tableAsciiHeader, 
-                                         //tableAsciiFooter, 
-                                         tableAsciiBody]};
+        var tableAscii = HtmlBuilder.buildHTMLStringTable({
+                attributes: {'id':'tblAscii', 'data-filter':'true'},
+                classes: ['small'],
+                //inlineStyle:,
+                thead: ["DEC","OCT","HEX","BIN","Symbol","HTML Number","HTML Name","Description"],
+                //tfoot:,
+                tbody: tableAsciiData
+        });
                          
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},

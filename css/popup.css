@@ -66,3 +66,15 @@ ul.square {list-style-type: square;}
 ol.upper-roman {list-style-type: upper-roman;}
 ol.lower-alpha {list-style-type: lower-alpha;}
 
+table.small td {
+    border-bottom: 1px solid #b2abab;
+    font-size: 0.7em;
+    font-weight: normal
+}
+
+table.small th {
+    border-bottom: 1px solid #d6d6d6;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    font-size: 0.7em;
+    font-weight: bold;
+}

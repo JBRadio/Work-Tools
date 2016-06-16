@@ -1,6 +1,7 @@
 var ToolTextCountCharacters = ToolTextCountCharacters || {
     
     name: 'Count Characters',
+    category: 'Text',
     description: 'Process inputted text to receive character, word, and line counts.',
     header: 'Count Characters', // Title to appear in Tool Page
     //parameter: true,
@@ -9,8 +10,8 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
         
         var br = {tagName: 'br' };
         
-        var btnProcess = {tagName: 'input',
-                          attributes: {id:'btnProcess', type:'button', value:'Process!'}};
+        //var btnProcess = {tagName: 'input',
+        //                  attributes: {id:'btnProcess', type:'button', value:'Process!'}};
         
         var descHeader = {tagName: 'h2', innerHTML: 'Description:'};
             
@@ -28,12 +29,19 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
-                      childObjects: [descHeader, descInfo, br, txtaInput, br, btnProcess, br, divResults]};
+                      childObjects: [descHeader, descInfo, br, txtaInput, br, 
+                                     //btnProcess, br, 
+                                     divResults]};
         return content;
     }, // End of content
     
+    pageshow: function() {
+        $('#txtaInput').focus();
+    },
+    
     events: function() {
-        $('#btnProcess').on('click', function() { 
+        //$('#btnProcess').on('click', function() { 
+        $('#txtaInput').on('keyup', function() {
             var usrInput = $('#txtaInput').val().trim();
             if ( usrInput == "" || usrInput.length == 0 || usrInput == undefined ) return;    
             
@@ -48,10 +56,12 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
 	        wordCount = wordCount.split(' ').length;
         
           // alert("Text: " + $("#txtaInput").val()); // DEBUG
-        var tblRowData = [['Text:', $('#txtaInput').val().length > 0 ? $('#txtaInput').val() : '<span class="colorRed">(No text entered)</span>' ],
-                          ['Character count:', $('#txtaInput').val().length ],
-                          ['Word count:', wordCount],
-                          ['Line count:', lineCount]];
+        var tblRowData = [
+                       //['Text:', $('#txtaInput').val().length > 0 ? $('#txtaInput').val() : '<span class="colorRed">(No text entered)</span>' ],
+                         ['Character count:', $('#txtaInput').val().length ],
+                         ['Word count:', wordCount],
+                         ['Line count:', lineCount]
+        ];
         
         //var tbl = HtmlBuilder.buildTableHTML([], tblRowData);
             
@@ -64,7 +74,7 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
             //console.log(tbl);
           
         $('#txtResults').html( tbl );
-        $('#txtaInput').focus();
+        //$('#txtaInput').focus();
         });
     }, // End of events (event listeners)
 };

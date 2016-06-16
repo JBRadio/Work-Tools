@@ -162,8 +162,8 @@ var WorkTool = WorkTool || {
 // Application Initialization (When extension opens)
 // --------------------------
 
+// Document is only built once, use the .ready() to do things on the initial page
 $(document).ready(function () {
-    
     setTimeout( function(){
         $($('.ui-page-active form :input:visible')[0]).focus();
     }, 500);
@@ -171,30 +171,83 @@ $(document).ready(function () {
 });
 
 
-
 // -------------
 // jQuery Mobile
 // -------------
 
+$(document).on('pageshow', function() {
+    var activePageId = $( ":mobile-pagecontainer" ).pagecontainer('getActivePage')[0].id;
+    //console.log("Active Page ID: " + activePageId); // DEBUG:
+    
+    if ( activePageId == undefined ) {
+        console.log("pagecontainer getActivePage is undefined.");
+        return;
+    }
+    
+    switch ( activePageId ) {
+        case "index":
+            // Setting focus makes the scrollbar jump to the top where the search filter is
+            // Either scroll to the top and focus() to feel natural or remove it.
+            //$('html, body').animate({scrollTop : 0},800);
+            //setTimeout( function(){ $($('.ui-page-active form :input:visible')[0]).focus(); }, 500);
+            break;
+            
+        case "ToolPage":
+            if ( WorkTool.loadedTool.pageshow !== undefined && WorkTool.loadedTool.pageshow !== null )
+                setTimeout( function(){ WorkTool.loadedTool.pageshow(); }, 500);
+            break;
+    }
+});
+
 $(document).on('pageinit', '#index', function() { // Initialize #index; Only happens once.
 
     // 1.) Set up <ul> with tools <li>
+    // -------------------------------
     $('#ulMainList').empty();
     var toolList = "";
-    
-    sortObjectArrayByString(WorkTool.Tools, 'name');
+    var toolCategory = [];
+    var toolsByCategory = [];
     
     for ( var i = 0; i < WorkTool.Tools.length; i++ ) {
-        console.log( WorkTool.Tools[i].name );
-        if ( WorkTool.Tools[i].name != undefined )
-        toolList += '<li><a href="">' + WorkTool.Tools[i].name + '</a></li>';
+        
+        // #.) Make a category name in case we forgot to do this
+        if ( WorkTool.Tools[i].category == undefined )
+            WorkTool.Tools[i].category = "uncategorized"; 
+        
+        // #.) See if we have the category in the toolCategory array and create it if not
+        if ( $.inArray(WorkTool.Tools[i].category, toolCategory) == -1 )
+            toolCategory.push( WorkTool.Tools[i].category );
+        
+        // #.) See if we have a toolsByCategory array, if not create it
+        if ( toolsByCategory[WorkTool.Tools[i].category] == undefined )
+            toolsByCategory[WorkTool.Tools[i].category] = [];
+        
+        // #.) See if we have a tool name, if so push tool to toolsByCategory array
+        if ( WorkTool.Tools[i].name == undefined )
+            WorkTool.Tools[i].name = "Unknown";
+        
+        toolsByCategory[WorkTool.Tools[i].category].push(WorkTool.Tools[i].name);
     }
+    
+    toolCategory.sort();
+    
+    for (var i = 0; i < toolCategory.length; i++) {
+        toolList += '<li data-role="list-divider" data-theme="b">' + toolCategory[i] + '</li>';
+        toolsByCategory[toolCategory[i]].sort();
+        
+        for (var x = 0; x < toolsByCategory[toolCategory[i]].length; x++)
+        {
+            toolList += '<li><a href="">' + toolsByCategory[toolCategory[i]][x] + '</a></li>';
+        }
+    }
+    
     
     $('#ulMainList').html(toolList);
     $('#ulMainList').listview('refresh'); // do not use .enhanceWithin();
     
     
     // 2.) Set up Event Listeners for #index <li> items
+    // ------------------------------------------------
     $('#index li').map( function(number, element) {
         $(element).on('click', function (){
             if ( this.children && this.children.length > 1 )

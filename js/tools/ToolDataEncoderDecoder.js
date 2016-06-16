@@ -1,6 +1,7 @@
 var ToolEncoderDecoder = ToolEncoderDecoder || {
     
     name: 'Data Encoder/Decoder',
+    category: 'Encode/Decode',
     description: 'Display links to free online sites that will allow you to encode/decode.',
     header: 'Data Encoder/Decoder', // Title to appear in Tool Page
     //parameter: true,

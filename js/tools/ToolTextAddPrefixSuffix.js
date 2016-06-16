@@ -1,6 +1,7 @@
 var ToolTextAddPrefixSuffix = ToolTextAddPrefixSuffix || {
     
     name: 'Add Prefix/Suffix to Text Lines',
+    category: 'Text',
     description: 'Modify each line of text with prefix or suffix text',
     header: 'Add Prefix/Suffix to Text Lines', // Title to appear in Tool Page
     //parameter: true,
