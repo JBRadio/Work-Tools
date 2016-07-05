@@ -77,7 +77,8 @@ var ToolEquivalentsDegrees = ToolEquivalentsDegrees || {
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
         var seeAlsoItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
             ['Temperature Conversion (rapidtables.com)', 'http://www.rapidtables.com/convert/temperature/index.htm'],
-            ['Celsius to Fahrenheit Chart', 'http://www.rapidtables.com/convert/temperature/celsius-to-fahrenheit-chart.htm']
+            ['Celsius to Fahrenheit Chart', 'http://www.rapidtables.com/convert/temperature/celsius-to-fahrenheit-chart.htm'],
+            ['Digital Dutch Unit Converter', 'http://www.digitaldutch.com/unitconverter/length.htm'],
             //['name','href'],
             ], 
             {attributes: {target:'blank'}}

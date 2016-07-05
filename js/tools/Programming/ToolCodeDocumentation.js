@@ -52,6 +52,20 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
             //['name','href'],
             ]);
         
+        // JavaScript Frameworks
+        // ---------------------
+        var listJSFHeader = {tagName: 'h2', innerHTML: 'JavaScript Frameworks/Libraries'};
+        var listJSF = HtmlBuilder.buildHtmlLinkList([
+            ['Angular 1.x', 'https://docs.angularjs.org/api'],
+            ['Angular 2', 'https://angular.io/docs/js/latest/'],
+            ['Angular Public Folder', 'https://drive.google.com/drive/u/0/folders/0BxgtL8yFJbacQmpCc1NMV3d5dnM'],
+            ['Aurelia', 'http://aurelia.io/docs.html#/api/home'],
+            ['Ember', 'http://emberjs.com/api/'],
+            ['Polymer (1.0)', 'https://www.polymer-project.org/1.0/docs/devguide/feature-overview'],
+            ['React', 'https://facebook.github.io/react/docs/getting-started.html']
+            //['name','href'],
+            ]);
+        
         // JSON (Javascript Object Notation)
         // ----
         var listJSONHeader = {tagName: 'h2', innerHTML: 'JSON'};
@@ -138,25 +152,42 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
         // --------
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
         var seeAlso = HtmlBuilder.buildHtmlLinkList([
+            ['Comparison of JavaScript Frameworks (wikipedia)', 'https://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks'],
+            ['List of JavaScript Libraries (wikipedia)', 'https://en.wikipedia.org/wiki/List_of_JavaScript_libraries']
             //['name','href'],
             ]);
+        
+        //console.log('SeeAlso: ' + seeAlso.toString());
+        
+        /*
+        var filterList = {
+            tagName: 'ul', 
+            attributes: {'data-role':'listview', 'data-inset':'true', 'data-filter':'true'},
+            childObjects: listJQUERY
+            //.unshift( {tagName: 'li', attributes:{'data-role':'list-divider'}, innerHTML:'jQuery'} )
+                         };
+        */
         
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br,
+                                     //filterList
+    
                                      listSearchHeader, listSearch,
                                      listCSSHeader, listCSS,
                                      listGASHeader, listGAS,
                                      listHTMLHeader, listHTML,
                                      listJSHeader, listJS,
+                                     listJSFHeader, listJSF,
                                      listJSONHeader, listJSON,
                                      listJSONLDHeader, listJSONLD,
                                      listJQUERYHeader, listJQUERY,
                                      listPHPHeader, listPHP,
                                      listSQLHeader, listSQL,
                                      listXMLHeader, listXML,
-                                     //seeAlsoHeader, seeAlso
+                                     seeAlsoHeader, seeAlso
+                                     
                                     ]};
         return content;
     }, // End of content

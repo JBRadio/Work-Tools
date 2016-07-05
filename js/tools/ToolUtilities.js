@@ -18,8 +18,10 @@ var ToolUtilities = ToolUtilities || {
         var listUtilityItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
             ['Development Tools (tutorialspoint.com)', 'http://www.tutorialspoint.com/online_dev_tools.htm'],
             ['Google Products', 'https://www.google.com/intl/en/about/products/'],
+            ['If This Then That (IFTTT)', 'https://ifttt.com/'],
             ['Online Scientific and Engineering Resource', 'http://www.rapidtables.com/'],
-            ['SEO Chat Free Beta Tools', 'http://tools.seochat.com/']
+            ['SEO Chat Free Beta Tools', 'http://tools.seochat.com/'],
+            ['TextFixer - HTML, Text, Numbers', 'http://www.textfixer.com/']
             ], 
             {attributes: {target:'blank'}}
         ); // building <a> string text for <li> innerHTML
