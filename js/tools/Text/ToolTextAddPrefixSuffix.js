@@ -23,29 +23,40 @@ var ToolTextAddPrefixSuffix = ToolTextAddPrefixSuffix || {
 			            + '<li>Press "Add" or "Remove" button to apply to each text line</li>'
 			            + '</ol>';
         
-        var Controls  = '<label for="txtPrefix">Prefix:</label>'
-		              + '<input id="txtPrefix" type="text" placeholder="Enter Prefix Here" />'
-                      + '<br />'
-			          + '<label for="txtSuffix">Suffix:</label>'
-			          + '<input id="txtSuffix" type="text" placeholder="Enter Suffix Here" />'
-                      + '<br />'
-		              + '<label for="data">Data:</label>'
-			          + '<textarea id="txtaData" cols=75 rows=10 placeholder="Place data to convert here" >'
-                      + '</textarea>'
-                      + '<br />'
-			          + '<button id="btnAdd" data-inline="true" style="display:inline;" >Add</button>'
-			          + '<button id="btnRemove" data-inline="true" style="display:inline;" >Remove</button>'
-                      + '<br />';
+        var txtPrefix = '<label for="txtPrefix">Prefix:</label>'
+		              + '<input id="txtPrefix" type="text" data-clear-btn="true" placeholder="Enter Prefix Here" />';
+        
+        var txtSuffix = '<label for="txtSuffix">Suffix:</label>'
+			          + '<input id="txtSuffix" type="text" data-clear-btn="true" placeholder="Enter Suffix Here" />';
+        
+        var txtaData = '<label for="data">Data:</label>'
+			          + '<textarea id="txtaData" data-autogrow="false" rows=5 placeholder="Place data to convert here" >'
+                      + '</textarea>';
+        
+        var buttons = '<button id="btnAdd" data-inline="true" style="display:inline;" >Add</button>'
+			          + '<button id="btnRemove" data-inline="true" style="display:inline;" >Remove</button>';
         
         // LIST (ul): See Also
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
+        
+        var fieldcontain = {tagName: 'div',
+                            attributes: {'data-role':"fieldcontain"},
+                            childObjects: [txtPrefix, br,
+                                           txtSuffix, br,
+                                           txtaData, br
+                                          ]
+                           };
         
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, // Description
                                      dirheader, Directions, // Directions
-                                     Controls,
+                                     //txtPrefix, br,
+                                     //txtSuffix, br,
+                                     //txtaData, br,
+                                     fieldcontain, br,
+                                     buttons, br,
                                      seeAlsoHeader] // See Also
                       };
         return content;
