@@ -13,6 +13,8 @@ var ToolCodeAlignment = ToolCodeAlignment || {
         var descHeader = {tagName: 'h2', innerHTML: 'Description:'};
         var descInfo = {tagName: 'p', innerHTML: ToolCodeAlignment.description};
         
+        var searchLi = [], tempLi;
+        
         // Multiple
         // --------
         var listMultipleHeader = '<h2>Multiple Language Formatter</h2>';
@@ -39,6 +41,10 @@ var ToolCodeAlignment = ToolCodeAlignment || {
     
         var listCSS = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listCSSItems, {tagName: 'li'} )};
         
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listCSSItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'CSS'});
+        searchLi = searchLi.concat(tempLi);
+        
         
         // Javascript
         // ----------
@@ -57,6 +63,11 @@ var ToolCodeAlignment = ToolCodeAlignment || {
     
         var listJS = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listJSItems, {tagName: 'li'} )};
         
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listJSItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'JavaScript'});
+        searchLi = searchLi.concat(tempLi);
+        
+        
         // JSON (Javascript Object Notation)
         // ----
         var listJSONHeader = {tagName: 'h2', innerHTML: 'JSON'};
@@ -71,6 +82,11 @@ var ToolCodeAlignment = ToolCodeAlignment || {
         ); // building <a> string text for <li> innerHTML
     
         var listJSON = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listJSONItems, {tagName: 'li'} )};
+        
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listJSONItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'JSON'});
+        searchLi = searchLi.concat(tempLi);
+        
         
         // HTML
         // ----
@@ -88,6 +104,11 @@ var ToolCodeAlignment = ToolCodeAlignment || {
     
         var listHTML = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listHTMLItems, {tagName: 'li'} )};
         
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listHTMLItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'HTML'});
+        searchLi = searchLi.concat(tempLi);
+        
+        
         // Python
         // ------
         var listPythonHeader = {tagName: 'h2', innerHTML: 'Python'};
@@ -99,6 +120,10 @@ var ToolCodeAlignment = ToolCodeAlignment || {
         ); // building <a> string text for <li> innerHTML
     
         var listPython = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listPythonItems, {tagName: 'li'} )};
+        
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listPythonItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'Python'});
+        searchLi = searchLi.concat(tempLi);
         
         
         // SQL (Structured Query Syntax)
@@ -118,6 +143,11 @@ var ToolCodeAlignment = ToolCodeAlignment || {
         
         var listSQL = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listSQLItems, {tagName: 'li'} )};
         
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listSQLItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'SQL'});
+        searchLi = searchLi.concat(tempLi);
+        
+        
         // XML
         // ---
         var listXMLHeader = {tagName: 'h2', innerHTML: 'XML'};
@@ -130,27 +160,40 @@ var ToolCodeAlignment = ToolCodeAlignment || {
             {attributes: {target:'blank'}}
         ); // building <a> string text for <li> innerHTML
         
-    
         var listXML = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listXMLItems, {tagName: 'li'} )};
+        
+        tempLi = HtmlBuilder.buildHtmlObjectsFromArray(listXMLItems, {tagName: 'li'});
+        tempLi.unshift({tagName:'li', attributes:{'data-role':'list-divider', 'data-theme':'b'},innerHTML:'XML'});
+        searchLi = searchLi.concat(tempLi);
+        
         
         // Others
         // ------
+        
+        var searchUl = {tagName:'ul', 
+                      attributes:{'data-role':'listview', 'data-inset':'true', 'data-filter':'true'}, 
+                      childObjects:searchLi};
         
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br,
-                                     listMultipleHeader, listMultiple, 
-                                     listCSSHeader, listCSS,
-                                     listHTMLHeader, listHTML,
-                                     listJSHeader, listJS,
-                                     listJSONHeader, listJSON,
-                                     listPythonHeader, listPython,
-                                     listSQLHeader, listSQL,
-                                     listXMLHeader, listXML
+                                     listMultipleHeader, listMultiple, br,
+                                     searchUl,
+                                     //listCSSHeader, listCSS, 
+                                     //listHTMLHeader, listHTML,
+                                     //listJSHeader, listJS,
+                                     //listJSONHeader, listJSON,
+                                     //listPythonHeader, listPython,
+                                     //listSQLHeader, listSQL,
+                                     //listXMLHeader, listXML
                                     ]};
         return content;
     }, // End of content
+    
+    pageshow: function() {
+        document.getElementsByTagName('input')[1].focus(); // 0 = main page's searchbar
+    },
     
     events: function() {
         

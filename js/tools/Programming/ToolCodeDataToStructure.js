@@ -73,6 +73,10 @@ var ToolDataToStructure = ToolDataToStructure || {
         return content;
     }, // End of content
     
+    pageshow: function() {
+        $('#txtArrayName').focus();
+    },
+    
     events: function() {
         $('#btnParse').on('click', function() { 
                         

@@ -57,6 +57,7 @@ div[data-role="content"] {
     */
     overflow:auto;
     max-height:460px;
+    /*max-height:445px; */
 }
 
 /* --------- Lists ------------ */

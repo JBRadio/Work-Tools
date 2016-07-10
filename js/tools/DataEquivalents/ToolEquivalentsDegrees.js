@@ -1,7 +1,7 @@
 var ToolEquivalentsDegrees = ToolEquivalentsDegrees || {
     
     name: 'Find the equivalent in degrees',
-    description: 'Modify each line of text with prefix or suffix text',
+    description: 'Assign a value to one temperature to get the equivalent in others.',
     header: 'Find the equivalent in degrees', // Title to appear in Tool Page
     //parameter: true,
     //parameters: ["Radio Buttons", "Capitalize", "CamelCase", "Uppercase", "Lowercase", "mixedCase"],
@@ -20,12 +20,20 @@ var ToolEquivalentsDegrees = ToolEquivalentsDegrees || {
                         + '<li>Type a number in one of the text fields to update the others.</li>'
 			            + '</ol>';
         
-        var Controls  = '<label for="txtCelsius">Celsius:</label>'
-                      + '<input id="txtCelsius" type="text" placeholder="Type to update value" /><br />'
-			          + '<label for="txtKelvin">Kelvin:</label>'
-			          + '<input id="txtKelvin" type="text" placeholder="Type to update value" /><br />'
-		              + '<label for="txtFahrenheit">Fahrenheit:</label>'
-			          + '<input id="txtFahrenheit" type="text" placeholder="Type to update value" /><br />';
+        var txtCelsius = '<label for="txtCelsius">Celsius:</label>'
+                      + '<input id="txtCelsius" type="number" placeholder="Type to update value" />';
+        var txtKelvin = '<label for="txtKelvin">Kelvin:</label>'
+			          + '<input id="txtKelvin" type="number" placeholder="Type to update value" />';
+        var txtFahrenheit = '<label for="txtFahrenheit">Fahrenheit:</label>'
+			          + '<input id="txtFahrenheit" type="number" placeholder="Type to update value" />';
+        
+        var fieldcontain = {tagName: 'div',
+                            attributes: {'data-role':"fieldcontain"},
+                            childObjects: [txtCelsius, br,
+                                           txtKelvin, br,
+                                           txtFahrenheit
+                                          ]
+                           };
         
         var tableTempHeaderData = ["Kelvin (K)", "Fahrenheit (°F)", "Celsius (°C)", "Temperature"];
         
@@ -91,16 +99,29 @@ var ToolEquivalentsDegrees = ToolEquivalentsDegrees || {
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, // Description
-                                     dirheader, Directions, // Directions
-                                     Controls,
+                                     //dirheader, Directions, // Directions
+                                     //Controls,
+                                     fieldcontain,
                                      tableTemp, br,
                                      seeAlsoHeader, seeAlso] // See Also
                       };
         return content;
     }, // End of content
     
+    pageshow: function() {
+        $('#txtCelsius').focus();
+    },
+    
     events: function() {
-        $('#txtCelsius').on('keyup', function() { ToolEquivalentsDegrees.onKeyupUpdateDegrees('C'); });
+        
+        $('#txtCelsius').on('keyup', function() { 
+            
+            if ( $(this).val().length == 0 ) {
+                $('txtCelsius').val(""),  $('#txtFahrenheit').val(""), $('#txtKelvin').val("");
+                $(this).focus();
+            } else
+            ToolEquivalentsDegrees.onKeyupUpdateDegrees('C'); 
+        });
         
         $('#txtFahrenheit').on('keyup', function() { ToolEquivalentsDegrees.onKeyupUpdateDegrees('F'); });
         

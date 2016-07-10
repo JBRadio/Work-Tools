@@ -62,6 +62,10 @@ var ToolTextAddPrefixSuffix = ToolTextAddPrefixSuffix || {
         return content;
     }, // End of content
     
+    pageshow: function() {
+        $('#txtPrefix').focus();
+    },
+    
     events: function() {
         
         $('#btnAdd').on('click', ToolTextAddPrefixSuffix.onAdd);

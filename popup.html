@@ -37,7 +37,11 @@ VERSION HISTORY
 <head>
     
     <!-- link: CSS Stylesheet -->
-    <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+    <!-- <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css"> -->
+    
+    <link rel="stylesheet" href="/css/themes/brownTheme.min.css" />
+	<link rel="stylesheet" href="/css/themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <link rel="stylesheet" href="/css/popup.css">
 
     <!-- Font-awesome for spinner.GIF replacement -->
@@ -67,9 +71,9 @@ VERSION HISTORY
 <body>
     
     <!-- Index -->
-    <div data-role="page" data-theme="a" id="index">
+    <div data-role="page" data-theme="b" id="index">
         
-        <div data-role="header" data-position="fixed">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
             <h1>Work Tools</h1>
         </div> <!-- header -->
         
@@ -86,12 +90,13 @@ VERSION HISTORY
             </ul>
         </div> <!-- content -->
         
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
             <div data-role="navbar">
                 <ul>
-                    <li><a data-icon="home" href="#index">Home</a></li>
+                    <!-- <li><a data-icon="home" href="#index">Home</a></li> No need for home link on #index; And we have back button -->
                     <li><a data-icon="gear" href="#options">Options</a></li>
                     <li><a data-icon="info" href="#credits">Credits</a></li>
+                    <li><a data-icon="navigation" href="https://github.com/JBRadio/Work-Tools" target="_blank">Github</a></li>
                 </ul>
             </div>
         </div> <!-- footer -->

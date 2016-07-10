@@ -38,7 +38,7 @@ var WorkTool = WorkTool || {
         
         // Decide later if a Tool should maintain its own footer
         var footer = {tagName:'div', 
-                      attributes: {'data-role':"footer", 'data-position':'fixed'},
+                      attributes: {'data-role':"footer", 'data-position':'fixed', 'data-tap-toggle':"false"},
                       innerHTML: tool.footer == undefined ? "" : tool.footer};
         
         /*var content = {tagName:'div', 
@@ -58,7 +58,7 @@ var WorkTool = WorkTool || {
                      };
         
         var page = HtmlBuilder.buildHtmlString( {tagName:'div', 
-                    attributes: {'data-role':"page", 'data-position':'fixed', id:'ToolPage'},
+                    attributes: {'data-role':"page", 'data-theme':'b','data-position':'fixed', id:'ToolPage'},
                     childObjects: [header, tool.content(), footer]} );
 
         return page;
@@ -70,6 +70,7 @@ var WorkTool = WorkTool || {
         var toolIndex = WorkTool.haveToolByName(toolName); // Returns a # or "Not Found"
         
         if ( toolIndex == "Not Found") { // 0 (zero) also evaluates to false; Screws with array index return value
+            
             // DEBUG:
 			console.log("Page: Failed to load tool " + toolName);
             return false;
@@ -124,6 +125,7 @@ var WorkTool = WorkTool || {
         
         var footer = HtmlBuilder.buildHtmlString( {tagName:'div', 
                       attributes: {'data-role':"footer", 'data-position':'fixed'},
+                      inlineStyle: {'opacity':'0.5'},
                       innerHTML: tool.footer != undefined ? tool.footer : ""} );
         
         var content = HtmlBuilder.buildHtmlString( tool.content() );

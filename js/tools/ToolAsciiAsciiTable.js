@@ -315,6 +315,10 @@ var ToolAsciiAsciiTable = ToolAsciiAsciiTable || {
         return content;
     }, // End of content
     
+    pageshow: function() {
+        document.getElementsByTagName('input')[1].focus(); // 0 = main page's searchbar
+    },
+    
     events: function() {
         $('#btnProcess').on('click', function() { 
             var usrInput = $('#txtaInput').val().trim();
