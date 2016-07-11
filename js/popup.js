@@ -95,7 +95,7 @@ $(document).on('pageinit', '#index', function() { // Initialize #index; Only hap
     toolCategory.sort();
     
     for (var i = 0; i < toolCategory.length; i++) {
-        toolList += '<li data-role="list-divider" data-theme="b">' + toolCategory[i] + '</li>';
+        toolList += '<li data-role="list-divider" data-theme="d">' + toolCategory[i] + '</li>';
         toolsByCategory[toolCategory[i]].sort();
         
         for (var x = 0; x < toolsByCategory[toolCategory[i]].length; x++)

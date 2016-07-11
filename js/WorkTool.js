@@ -58,7 +58,7 @@ var WorkTool = WorkTool || {
                      };
         
         var page = HtmlBuilder.buildHtmlString( {tagName:'div', 
-                    attributes: {'data-role':"page", 'data-theme':'b','data-position':'fixed', id:'ToolPage'},
+                    attributes: {'data-role':"page", 'data-theme':'d','data-position':'fixed', id:'ToolPage'},
                     childObjects: [header, tool.content(), footer]} );
 
         return page;
