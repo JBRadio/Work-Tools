@@ -119,9 +119,6 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
                     characterFrequency[s] ? characterFrequency[s]++ : characterFrequency[s] = 1;
                 });
             
-            console.log(characterFrequency);
-    
-            
             // #.) Build data: Word Frequency
             wordFrequency = {};
             $('#txtaInput').val()
@@ -139,29 +136,19 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
                     wordFrequency[s] ? wordFrequency[s]++ : wordFrequency[s] = 1;
             });
             
-            console.log(wordFrequency);
-            
         }
         
         // #.) Build return data: <table>
-        
         var sortObjectByKey = function(obj){
+            // http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key
             var keys = [];
             var sorted_obj = {};
 
-            for(var key in obj){
-                if(obj.hasOwnProperty(key)){
-                    keys.push(key);
-                }
-            }
+            for(var key in obj){ if(obj.hasOwnProperty(key)){ keys.push(key); } }
 
-            // sort keys
             keys.sort();
-
-            // create new array based on Sorted Keys
-            jQuery.each(keys, function(i, key){
-                sorted_obj[key] = obj[key];
-            });
+            
+            jQuery.each(keys, function(i, key){ sorted_obj[key] = obj[key]; }); // create new array based on Sorted Keys
 
             return sorted_obj;
         };
