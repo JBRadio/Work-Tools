@@ -40,6 +40,13 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
             //['name','href'],
             ]);
         
+        // Markdown
+        // --------
+        var listMDHeader = {tagName: 'h2', innerHTML: 'Markdown'};
+        var listMD = HtmlBuilder.buildHtmlLinkList([
+            ['Markdown Cheatsheet', 'https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet']
+            ]);
+        
         // Javascript
         // ----------
         var listJSHeader = {tagName: 'h2', innerHTML: 'JavaScript'};
@@ -173,11 +180,11 @@ var ToolCodeDocumentation = ToolCodeDocumentation || {
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br,
                                      //filterList
-    
                                      listSearchHeader, listSearch,
                                      listCSSHeader, listCSS,
                                      listGASHeader, listGAS,
                                      listHTMLHeader, listHTML,
+                                     listMDHeader, listMD,
                                      listJSHeader, listJS,
                                      listJSFHeader, listJSF,
                                      listJSONHeader, listJSON,

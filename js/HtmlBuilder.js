@@ -138,12 +138,15 @@ var HtmlBuilder = HtmlBuilder || {
             return [];
         }
         
+        //console.log(arrHtml, custom);
+        
         // PROCESSING
-        var retArray = arrHtml.map(function(item, index, originalArray){
+        var retArray = arrHtml.map(function(value, index, originalArray){
             var retObj = {attributes: custom.attributes || {},
                           childObjects: custom.childObjects || [],
                           classes: custom.classes || [],
-                          innerHTML: item || "",
+                          //innerHTML: value == 0 ? 0 : ( value == false ? false : value ),
+                          innerHTML: value,
                           inlineStyle: custom.inlineStyle || {},
                           tagName: custom.tagName.trim() || ""};
             
@@ -170,7 +173,7 @@ var HtmlBuilder = HtmlBuilder || {
         var attributes  = objHtml.attributes || {};     // attributes: {'data-role':'page', ... }
         var childObjects = objHtml.childObjects || [];  // childObjects: [{child1}, {child2}]
         var classes     = objHtml.classes || [];        // classes: ['colorRed', 'big', ...]
-        var innerHTML   = objHtml.innerHTML || "";      // innerHtml: 'Inside HTML or text'
+        var innerHTML   = objHtml.innerHTML;            // innerHtml: 'Inside HTML or text'
         var style       = objHtml.inlineStyle || {};    // inlineStyle: {'color':'red', ...}
         var tagName     = objHtml.tagName;              // tagName: div
         // childStrings: ['<div>...</div>', '<span>...</span>]
@@ -475,6 +478,24 @@ var HtmlBuilder = HtmlBuilder || {
         }
         rText += '"'; // Close quotation for style
         return rText;
+    },
+    
+    htmlEscape: function(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    },
+
+    htmlUnescape: function(str) {
+        return str
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
     }
 };
 

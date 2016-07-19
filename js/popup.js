@@ -18,6 +18,12 @@
 // Global Variables
 // ----------------
 
+// http://stackoverflow.com/questions/2116558/fastest-method-to-replace-all-instances-of-a-character-in-a-string/6714233#6714233
+// jQuery has a .replaceAll function but it isn't for String objects.
+String.prototype.replaceAll = function(str1, str2, ignore) 
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+}
 
 
 
@@ -95,7 +101,7 @@ $(document).on('pageinit', '#index', function() { // Initialize #index; Only hap
     toolCategory.sort();
     
     for (var i = 0; i < toolCategory.length; i++) {
-        toolList += '<li data-role="list-divider" data-theme="d">' + toolCategory[i] + '</li>';
+        toolList += '<li data-role="list-divider" data-theme="b">' + toolCategory[i] + '</li>';
         toolsByCategory[toolCategory[i]].sort();
         
         for (var x = 0; x < toolsByCategory[toolCategory[i]].length; x++)

@@ -17,7 +17,9 @@ var ToolEncoderDecoder = ToolEncoderDecoder || {
         // ------
         var listHeaderBase64 = {tagName: 'h2', innerHTML: 'Base64'};
         var listItemsBase64 = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['Base64 Converter', 'http://www.webtoolkitonline.com/base64-converter.html']
+            ['Base64 Converter', 'http://www.webtoolkitonline.com/base64-converter.html'],
+            ['Base64-Encode A String', 'http://string-functions.com/base64encode.aspx'],
+            ['Base64-Decode A String', 'http://string-functions.com/base64decode.aspx']
             //['name','href'],
             ],
             {attributes: {target:'blank'}}
@@ -25,11 +27,42 @@ var ToolEncoderDecoder = ToolEncoderDecoder || {
     
         var listBase64 = {tagName: 'ul', childObjects: HtmlBuilder.buildHtmlObjectsFromArray( listItemsBase64, {tagName: 'li'} )};
         
+        // Character Encoder / Decoder
+        // ---------------------------
+        var listCharHeader = {tagName: 'h2', innerHTML: 'Character Encoder/Decoder'};
+        var listChar = HtmlBuilder.buildHtmlLinkList([
+            ['Character Encoder / Decoder', 'http://string-functions.com/encodedecode.aspx'],
+            ['Character Encoding Errors Analyzer', 'http://string-functions.com/encodingerror.aspx'],
+            ['Character Encoding Table Index', 'http://string-functions.com/encodingindex.aspx']
+            //['name','href'],
+            ]);
+        
+        // Device Codes
+        // ------------
+        var listDeviceHeader = {tagName: 'h2', innerHTML: 'Device-related'};
+        var listDevice = HtmlBuilder.buildHtmlLinkList([
+            ['EBCDIC', 'http://www.lookuptables.com/ebcdic_scancodes.php'],
+            ['IBM Scan Codes', 'http://www.lookuptables.com/ebcdic_scancodes.php']
+            //['name','href'],
+            ]);
+        
+        // HTML Encoder / Decoder
+        // ----------------------
+        var listHTMLHeader = {tagName: 'h2', innerHTML: 'HTML Encoder/Decoder'};
+        var listHTML = HtmlBuilder.buildHtmlLinkList([
+            ['HTML-Decode A String', 'http://string-functions.com/htmldecode.aspx'],
+            ['HTML-Encode A String', 'http://string-functions.com/htmlencode.aspx'],
+            ['HTML Symbol Entities Reference', 'http://www.ascii-code.com/html-symbol.php']
+            //['name','href'],
+            ]);
+        
         // URL Encoder / Decoder
         // ---------------------
         var listURLHeader = {tagName: 'h2', innerHTML: 'URL Encoder/Decoder'};
         var listURLItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['URL Encoder / Decoder', 'http://www.webtoolkitonline.com/url-encoder-decoder.html']
+            ['URL Encoder / Decoder', 'http://www.webtoolkitonline.com/url-encoder-decoder.html'],
+            ['URL-Encode A String', 'http://string-functions.com/urlencode.aspx'],
+            ['URL-Decode A String', 'http://string-functions.com/urldecode.aspx']
             //['name','href'],
             ],
             {attributes: {target:'blank'}}
@@ -42,7 +75,6 @@ var ToolEncoderDecoder = ToolEncoderDecoder || {
         // --------
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
         var seeAlsoItems = HtmlBuilder.buildHtmlLinkObjectsFromArray([
-            ['Minification (programming)', 'https://en.wikipedia.org/wiki/Minification_(programming)']
             //['name','href'],
             ], 
             {attributes: {target:'blank'}}
@@ -56,7 +88,9 @@ var ToolEncoderDecoder = ToolEncoderDecoder || {
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br,
                                      //listCSSHeader, listCSS,
+                                     listCharHeader, listChar,
                                      listHeaderBase64, listBase64,
+                                     listHTMLHeader, listHTML,
                                      listURLHeader, listURL,
                                      seeAlsoHeader, seeAlso
                                     ]};

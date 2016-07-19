@@ -55,6 +55,14 @@ var ToolTextChangeCase = ToolTextChangeCase || {
                                            txtaInput]
                            };
         
+        // See Also
+        // --------
+        var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also'};
+        var seeAlso = HtmlBuilder.buildHtmlLinkList([
+            ['Convert A String To Uppercase, Lowercase Or Proper Case', 'http://string-functions.com/case.aspx']
+            //['name','href'],
+            ]);
+        
         var content = {tagName:'div', 
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
@@ -65,7 +73,8 @@ var ToolTextChangeCase = ToolTextChangeCase || {
                                      //btnProcess, br, 
                                      //txtaResults
                                      fieldcontain,
-                                     resultsHeader, divResults
+                                     resultsHeader, divResults,
+                                     seeAlsoHeader, seeAlso
                                     ]};
         return content;
     }, // End of content
