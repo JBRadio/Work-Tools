@@ -74,7 +74,6 @@ var ToolTextTrimText = ToolTextTrimText || {
     
     events: function() { 
         
-String.prototype.trimRight()
         var Process = [];
             Process['Left'] = function(text) { return text.trimLeft(); };
             Process['Right'] = function(text) { return text.trimRight(); };
