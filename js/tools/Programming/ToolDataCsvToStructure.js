@@ -39,9 +39,11 @@ var ToolDataToStructure = ToolDataToStructure || {
         var radioParams = '<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" >' + 
             '<legend>Output:</legend>' +
          	'<input type="radio" name="radio-choice-1" id="radio-choice-1" value="Array" checked="checked" />' +
-         	'<label for="radio-choice-1">CSV -> Array</label>' +
+         	'<label for="radio-choice-1">JS Array</label>' +
          	'<input type="radio" name="radio-choice-1" id="radio-choice-2" value="JSON"  />' + 
-         	'<label for="radio-choice-2">CSV -> JSON</label>' +
+         	'<label for="radio-choice-2">JSON</label>' +
+            '<label for="radio-choice-3">&lt;table&gt;</label>' +
+            '<input type="radio" name="radio-choice-1" id="radio-choice-3" value="table" />' +
             '</fieldset>';
         
         var txtaData = '<label for="txtaData">Data:</label>' + 
@@ -52,10 +54,11 @@ var ToolDataToStructure = ToolDataToStructure || {
         
         // Accept formats:
         // http://stackoverflow.com/questions/11832930/html-input-file-accept-attribute-file-type-csv
-        var btnUploadFile = '<input id="btnUploadFile" type="file" accept=".csv, .tsv, text/plain" >';
-        
+        var btnUploadFile = '<input id="btnUploadFile" type="file" accept=".csv, .tsv, text/plain" >';      
         var btnReReadFile = '<button id="btnReReadFile" data-inline="true">Re-read File</button>';
         var btnClearFile = '<button id="btnClearFile" data-inline="true">Clear File Chosen</button>';
+        
+        var btnUrlRequest = '<button id="btnUrlRequest" data-inline="true">Request URL Data</button>';
         
         //var cboxUploadFile = '<label>' + 
         //    '<input id="cboxUploadFile" type="checkbox" value="uploading_file" >' + 'Upload a file to process?</label>';
@@ -64,6 +67,12 @@ var ToolDataToStructure = ToolDataToStructure || {
             '<h3>Upload a file to process?</h3>' +
             btnUploadFile + 
             btnReReadFile + btnClearFile + 
+            '</div>';
+        
+        var collapseLoadByUrl = '<div data-role="collapsible">' +
+            '<h3>Upload CSV data by URL?</h3>' + 
+            '<input type="text" id="txtCsvUrl" data-inline="true" placeholder="Enter URL to get CSV file here." />' + 
+            btnUrlRequest +
             '</div>';
         
         var divResults = '<h2>Results:</h2><div id="divResults" style="white-space:pre;">Click "Parse!" to see results here!</div>';
@@ -112,7 +121,8 @@ var ToolDataToStructure = ToolDataToStructure || {
                             childObjects: [//radioParams, br,
                                            //cboxUploadFile, br,
                                            //btnUploadFile, br,
-                                           collapseUploadFile, br,
+                                           collapseUploadFile, //br,
+                                           collapseLoadByUrl, br,
                                            radioParams, br,
                                            txtaData
                                           ]
@@ -169,6 +179,33 @@ var ToolDataToStructure = ToolDataToStructure || {
                 
         });
         
+        $('#btnUrlRequest').on('click',function(){
+            var txtCsvUrl = $('#txtCsvUrl').val();
+            
+            if ( txtCsvUrl == undefined ) { console.log('Unable to find URL textbox.'); return; }
+            if ( txtCsvUrl.trim().length == 0 ) { console.log('No URL to process'); return; }
+            
+            if ( txtCsvUrl.indexOf('http') == -1 && txtCsvUrl.indexOf('file:') == -1 ) {
+                console.log('URL text is not valid.');
+                return;
+            }
+            
+            var xhr = CORS.createCORSRequest('GET', txtCsvUrl);
+
+            if (!xhr) {
+                //throw new Error('CORS not supported');
+                alert ("CORS not supported.");
+            }
+
+            CORS.sendCORSRequest(xhr, {
+                onload: function(){
+                    var allRows = xhr.responseText.split(/\r?\n|\r/);
+                    $('#txtaData').val(allRows.join('<br />'));
+                }
+            });
+                
+        });
+        
         $('#btnUploadFile').on('change', function() {
             
             if ( $('#btnUploadFile').val() !== "" ) {
@@ -213,8 +250,45 @@ var ToolDataToStructure = ToolDataToStructure || {
             var Process = [];
             
                 Process['Array'] = function(results){ // Process out to JavaScript Array
-                    
                     return JSON.stringify(results.data);
+                };
+            
+                Process['JSON'] = function(results){
+                    return JSON.stringify(results, null, 2);
+                };
+            
+                Process['table'] = function(/* PapaParse */ results) {
+                    var br = "<br />";
+                    var lt = '&lt;', gt = '&gt;';
+                    var rows = results.data;
+                    var columns;
+                    var cell;
+                    var rTable = lt + 'table' + gt + br + 
+                                 lt + 'thead' + gt + br;
+                    
+                    for (var row = 0; row < rows.length; row++) {
+                        columns = rows[row];
+                        rTable += lt + 'tr' + gt + br;
+                        
+                        for ( var column = 0; column < columns.length; column++ ) {
+                            cell = rows[row][column];
+                            if ( row == 0 )
+                                rTable += lt + 'th' + gt + cell + lt + '/th' + gt;
+                            else
+                                rTable += lt + 'td' + gt + cell + lt + '/td' + gt;
+                        }
+                        
+                        if ( row == 0 ) {
+                            rTable += br + lt + '/tr' + gt + br + lt + '/thead' + gt + br;
+                            rTable += lt + 'tbody' + gt + br;
+                        } else
+                            rTable += br + lt + '/tr' + gt + br;
+                    }
+                    
+                    rTable += lt + '/tbody' + gt + br;
+                    rTable += lt + '/table' + gt;
+                    return rTable;
+                    
                     
                     /*
                     var br = "<br />";
@@ -247,12 +321,7 @@ var ToolDataToStructure = ToolDataToStructure || {
                     strResults += '];';
                     return strResults;
                     */
-                    
-                };
-            
-                Process['JSON'] = function(results){
-                    return JSON.stringify(results, null, 2);
-                };
+                }
             
             // console.log('UI Control Validation'); // -----------------------------------------
             
@@ -307,7 +376,7 @@ var ToolDataToStructure = ToolDataToStructure || {
                 console.log(results);
             }
             
-            if ( results.data !== undefined || results.data.length == 0 ) {
+            if ( results.data == undefined || results.data.length == 0 ) {
                 console.log('No data to work with.');
                 console.log(results);
             }

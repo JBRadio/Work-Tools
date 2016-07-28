@@ -1,3 +1,9 @@
+/* 
+ * Manifest.json
+ *
+ * If any changes made here, you will need to re-load the Chrome Extension in Google Chrome.
+ *
+ */
 {
     // Required
     "manifest_version": 2,
@@ -20,5 +26,7 @@
     // background: { ... }
     //"background_page": "background.html",
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'", // PapaParse
-    "permissions": ["contextMenus"]    
+    "permissions": ["contextMenus", 
+                    "http://*/", // Required to load CSV, JSON, etc. from another origin into WorkTools
+                    "https://*/"]
 }
