@@ -44,6 +44,8 @@ var ToolDataToStructure = ToolDataToStructure || {
          	'<label for="radio-choice-2">JSON</label>' +
             '<label for="radio-choice-3">&lt;table&gt;</label>' +
             '<input type="radio" name="radio-choice-1" id="radio-choice-3" value="table" />' +
+            '<label for="radio-choice-4">.md</label>' +
+            '<input type="radio" name="radio-choice-1" id="radio-choice-4" value="markdown" />' +
             '</fieldset>';
         
         var txtaData = '<label for="txtaData">Data:</label>' + 
@@ -75,7 +77,12 @@ var ToolDataToStructure = ToolDataToStructure || {
             btnUrlRequest +
             '</div>';
         
-        var divResults = '<h2>Results:</h2><div id="divResults" style="white-space:pre;">Click "Parse!" to see results here!</div>';
+        var divResults = '<h2>Results:</h2>' + 
+                         '<div id="divResults" style="white-space:pre; height:145px; overflow: auto;">' + 
+                         'Click "Parse!" to see results here!</div>';
+                         //'<textarea id="txtaResults" placeholder="Click \'Parse!\' to see results here!" readonly="readonly"' +
+                         //'style="white-space:pre; height:145px; overflow: auto;" >' + 
+                         //'</textarea>';
         
         // Convert to CSV
         var convertToCsvHeader = '<h2>Convert to CSV</h2>';
@@ -100,6 +107,7 @@ var ToolDataToStructure = ToolDataToStructure || {
             ['CSV to HTML/Wiki Table', 'http://www.convertcsv.com/csv-to-html.htm'],
             ['CSV to JSON', 'http://www.convertcsv.com/csv-to-json.htm'],
             ['CSV to KML', 'http://www.convertcsv.com/csv-to-kml.htm'],
+            ['CSV to Markdown Table Generator', 'https://donatstudios.com/CsvToMarkdownTable'],
             ['CSV to Multi-line Data', 'http://www.convertcsv.com/csv-to-multiline-data.htm'],
             ['CSV to SQL', 'http://www.convertcsv.com/csv-to-sql.htm'],
             ['CSV to XML', 'http://www.convertcsv.com/csv-to-xml.htm'],
@@ -247,6 +255,15 @@ var ToolDataToStructure = ToolDataToStructure || {
                 });
             };
             
+            var Markdown = [];
+                Markdown['row'] = function(cellValue) { return cellValue + "|"; };
+                Markdown['separator'] = function(headerCount) {
+                    var rText = "|";
+                    for ( var i = 0; i < headerCount; i++ ) { rText += "---|"; }
+                    return rText;
+                };
+            
+            
             var Process = [];
             
                 Process['Array'] = function(results){ // Process out to JavaScript Array
@@ -257,71 +274,59 @@ var ToolDataToStructure = ToolDataToStructure || {
                     return JSON.stringify(results, null, 2);
                 };
             
-                Process['table'] = function(/* PapaParse */ results) {
-                    var br = "<br />";
+                Process['markdown'] = function(results) { return Process['table'](results, true); };
+             
+            
+                Process['table'] = function(/* PapaParse */ results, /* Markdown flag */ md) {
+                    var br = "<br />"; // use <br /> for div and \n for <textarea>
                     var lt = '&lt;', gt = '&gt;';
                     var rows = results.data;
                     var columns;
                     var cell;
-                    var rTable = lt + 'table' + gt + br + 
+                    
+                    // MD: |
+                    var rTable = md ? "|" :
+                                 lt + 'table' + gt + br + 
                                  lt + 'thead' + gt + br;
                     
                     for (var row = 0; row < rows.length; row++) {
                         columns = rows[row];
-                        rTable += lt + 'tr' + gt + br;
+                        
+                        // MD: |
+                        rTable += md ? "" : lt + 'tr' + gt + br;
                         
                         for ( var column = 0; column < columns.length; column++ ) {
                             cell = rows[row][column];
-                            if ( row == 0 )
-                                rTable += lt + 'th' + gt + cell + lt + '/th' + gt;
-                            else
-                                rTable += lt + 'td' + gt + cell + lt + '/td' + gt;
+                            
+                            if ( row == 0 ) {
+                                // MD: |HEADER|HEADER|..|
+                                rTable += md ? Markdown["row"](cell) :
+                                          lt + 'th' + gt + cell + lt + '/th' + gt;
+                            } else
+                                // MD: |HEADER|HEADER|..|
+                                //     |---|---|
+                                //     |CELL|CELL|..|
+                                rTable += md ? Markdown["row"](cell) :
+                                          lt + 'td' + gt + cell + lt + '/td' + gt;
                         }
                         
                         if ( row == 0 ) {
-                            rTable += br + lt + '/tr' + gt + br + lt + '/thead' + gt + br;
-                            rTable += lt + 'tbody' + gt + br;
+                            // MD: |HEADER|HEADER|..|
+                            //     |---|---|..|
+                            rTable += md ? br + Markdown['separator'](rows[0].length) + br + "|": 
+                                      br + lt + '/tr' + gt + br + lt + '/thead' + gt + br;
+                            rTable += md ? "" : lt + 'tbody' + gt + br;
                         } else
-                            rTable += br + lt + '/tr' + gt + br;
+                            rTable += (md && row != rows.length-1) ? br + "|" : 
+                                      md ? "" :
+                                      br + lt + '/tr' + gt + br;
                     }
                     
-                    rTable += lt + '/tbody' + gt + br;
-                    rTable += lt + '/table' + gt;
+                    rTable += md ? "" : lt + '/tbody' + gt + br;
+                    rTable += md ? "" : lt + '/table' + gt;
                     return rTable;
                     
-                    
-                    /*
-                    var br = "<br />";
-                    console.log( results.data );
-                    
-                    var lines = results.data.length;
-                    var strResults = txtArrayName + ' = [';
-                    
-                    var processArrayContents = function(arr) {
-                        var rText = "";
-
-                        for (var i = 0; i < arr.length; i++) { rText += isNaN(arr[i]) ? '"' + arr[i] + '",' : arr[i] + ','; }
-
-                        if ( rText.substr(-1) == "," ) { rText = rText.substring(0, rText.length-1); }
-
-                        return rText;
-                    };
-
-                    // Perform write once or multiple times. [,,,] or [[,,,],[,,,,],...]
-                    if ( lines == 1 ) { // Simple horizontal list
-                        strResults += processArrayContents(results.data[0]);
-
-                    } else if ( lines > 1 ) {
-
-                        for ( l = 0; l < lines; l++) { strResults += '[' + processArrayContents(results.data[l]) + '],' + br; }
-
-                        strResults = strResults.substring(0,strResults.length-7); // ',<br />'
-                    }
-
-                    strResults += '];';
-                    return strResults;
-                    */
-                }
+                };
             
             // console.log('UI Control Validation'); // -----------------------------------------
             
