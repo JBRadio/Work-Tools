@@ -1,19 +1,20 @@
-var ToolTextCountCharacters = ToolTextCountCharacters || {
+var ToolTextBreakByChar = ToolTextBreakByChar || {
     
-    name: 'Count Characters',
+    name: 'Break Text by Character',
     category: 'Text',
-    description: 'Enter input to see certain text statistical information: character, word, and line counts, etc.',
-    header: 'Count Characters', // Title to appear in Tool Page
-    //parameter: true,
-    //parameters: ["Radio Buttons", "Capitalize", "CamelCase", "Uppercase", "Lowercase", "mixedCase"],
+    description: 'Break CSV or plain text by text/character.',
+    header: 'Break Text by Character', // Title to appear in Tool Page
+	
     content: function() { // Dependency on HTMLBUilder
         
         var br = {tagName: 'br' };
+            
+        var descInfo = {tagName: 'p', innerHTML: ToolTextBreakByChar.description};
         
-        var descHeader = {tagName: 'h2', innerHTML: 'Description:'};
-            
-        var descInfo = {tagName: 'p', innerHTML: ToolTextCountCharacters.description};
-            
+		var txtDelimiter = {tagName: 'input',
+							attributes:{},
+							placeholder:'character or text'};
+		
         var txtaInput = {tagName: 'textarea',
                          attributes: {id:'txtaInput', 
                                       'data-autogrow':false, 
@@ -24,15 +25,12 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
         var resultsHeader = {tagName: 'h3', innerHTML: 'Results:'};
 		var divResults = {tagName: 'div',
 						  attributes: {id:'txtResults'}, 
-                          childObjects: [ToolTextCountCharacters.toolBuildResultsData()]};
+                          childObjects: [ToolTextBreakByChar.toolBuildResultsData()]};
         
         // See Also
         // --------
         var seeAlsoHeader = {tagName: 'h2', innerHTML: 'See Also:'};
         var seeAlso = HtmlBuilder.buildHtmlLinkList([
-            ['Calculate Number of Words in a Text', 'http://string-functions.com/wordcount.aspx'],
-            ['Calculate String Length', 'http://string-functions.com/length.aspx'],
-            ['Count The Occurrences Of A Substring Within A String','http://string-functions.com/countsubstrings.aspx']
             //['name','href'],
             ]);
                          
@@ -58,7 +56,7 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
             // When user presses a key, including pasting content into <textarea>
             //  this event will trigger.   
             
-            var tbl = ToolTextCountCharacters.toolBuildResultsData();
+            var tbl = ToolTextBreakByChar.toolBuildResultsData();
             $('#txtResults').html( tbl );
             $('#txtResults').enhanceWithin();
         });
@@ -207,6 +205,6 @@ var ToolTextCountCharacters = ToolTextCountCharacters || {
     }
 };
 
-WorkTool.addToolToTools(ToolTextCountCharacters);
-//console.log(WorkTool.Tools);
-//console.log('ToolTextCountCharacters.js: ' + HtmlBuilder.buildHtmlString( ToolTextCountCharacters.content() ) );
+WorkTool.addToolToTools(ToolTextBreakByChar);
+console.log(WorkTool.Tools);
+//console.log('ToolTextBreakByChar.js: ' + HtmlBuilder.buildHtmlString( ToolTextBreakByChar.content() ) );

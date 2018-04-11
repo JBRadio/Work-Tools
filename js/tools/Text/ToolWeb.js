@@ -17,6 +17,9 @@ var ToolWeb = ToolWeb || {
         // ---------------
         var listHtmlSitesHeader = {tagName: 'h2', innerHTML: 'HTML Tool Websites'};
         var listHtmlSites = HtmlBuilder.buildHtmlLinkList([
+			['HTML Symbols, Entities and ASCII Character Codes', 'https://www.toptal.com/designers/htmlarrows/'],
+			['HTML Try It Evaluator', 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_intro'],
+			['JSFiddle (JS, CSS, HTML, CoffeeScript)', 'https://jsfiddle.net/'],
             ['TextFixer.com: Online HTML Tools', 'http://www.textfixer.com/html/']
             //['name','href'],
             ]);
