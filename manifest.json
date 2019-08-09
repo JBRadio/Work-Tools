@@ -18,7 +18,7 @@
     // Pick one (or none)
     "browser_action": {
         // "default_icon": { ... },
-        "default_title": "List of tools",
+        "default_title": "List of everyday tools",
         "default_popup": "popup.html"
     },
     

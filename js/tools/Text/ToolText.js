@@ -14,6 +14,17 @@ var ToolText = ToolText || {
         var descInfo = {tagName: 'p', innerHTML: ToolText.description};
          
         
+        // Browser Extensions
+        var listBrowserExtensionsHeader = {tagName: 'h2', innerHTML: 'Browser Extensions'};
+        var listBrowserExtensions = HtmlBuilder.buildHtmlLinkList([
+            ['Convert Text', 'https://chrome.google.com/webstore/detail/convert-text/mcpglhjaahelnpjalcaeecgkjhkpokdn'],
+            ['Lorem Ipsum', 'https://chrome.google.com/webstore/detail/lorem-ipsum/kneacfckhnlodjbabmjfgicomghpflae'],
+            ['Talis Text Tools', 'https://chrome.google.com/webstore/detail/talis-text-tools/njmplcomehfebmimjafpcaepkclpbfjp'],
+            ['Text Tools', 'https://chrome.google.com/webstore/detail/text-tools/mpcpnbklkemjinipimjcbgjijefholkd'],
+            ['Text Tools #2', 'https://chrome.google.com/webstore/detail/text-tools/lakdnoglfanckmlikpkheinpijlmidan']
+            //['name','href'],
+            ]);
+        
         // Text Tool Sites
         // ---------------
         var listTextSitesHeader = {tagName: 'h2', innerHTML: 'Text Tool Websites'};
@@ -61,6 +72,7 @@ var ToolText = ToolText || {
                       attributes: {'data-role':'content'},
 					  classes: ['ui-content'],
                       childObjects: [descHeader, descInfo, br,
+                                     listBrowserExtensionsHeader, listBrowserExtensions,
                                      listTextSitesHeader, listTextSites,
                                      listRandomHeader, listRandom,
                                      listREHeader, listRE,

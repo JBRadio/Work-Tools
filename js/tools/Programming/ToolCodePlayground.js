@@ -54,6 +54,7 @@ var ToolCodePlayground = ToolCodePlayground || {
         var listJSONHeader = {tagName: 'h2', innerHTML: 'JSON'};
         var listJSON = HtmlBuilder.buildHtmlLinkList([
             ['JSONLint', 'http://jsonlint.com/'],
+            ['JSON Validator (freeformatter.com)', 'https://www.freeformatter.com/json-validator.html'],
             ['JSON Tester', 'http://www.webtoolkitonline.com/json-tester.html']
             //['name','href'],
             ]);
@@ -70,6 +71,7 @@ var ToolCodePlayground = ToolCodePlayground || {
         // ----
         var listHTMLHeader = {tagName: 'h2', innerHTML: 'HTML'};
         var listHTML = HtmlBuilder.buildHtmlLinkList([
+            ['HTML Validator (freeformatter.com)', 'https://www.freeformatter.com/html-validator.html'],
             ['Real-time HTML Editor', 'http://htmledit.squarefree.com/'],
             ['W3C Markup Validation Service', 'https://validator.w3.org/']
             //['name','href'],
@@ -80,6 +82,14 @@ var ToolCodePlayground = ToolCodePlayground || {
         var listMobileHeader = {tagName: 'h2', innerHTML: 'Mobile'};
         var listMobile = HtmlBuilder.buildHtmlLinkList([
             ['W3C mobileOK Checker', 'https://validator.w3.org/mobile/']
+            //['name','href'],
+            ]);
+        
+        // PHP
+        // ---
+        var listPhpHeader = {tagName: 'h2', innerHTML: 'PHP'};
+        var listPhp = HtmlBuilder.buildHtmlLinkList([
+            ['Online PHP functions (tools4noobs.com)', 'https://www.tools4noobs.com/online_php_functions/']
             //['name','href'],
             ]);
         
@@ -94,6 +104,12 @@ var ToolCodePlayground = ToolCodePlayground || {
         
         // Regular Expression
         // http://www.webtoolkitonline.com/regular-expression-tester.html
+        var listRegexHeader = {tagName: 'h2', innerHTML: 'Regular Expression'};
+        var listRegex = HtmlBuilder.buildHtmlLinkList([
+            ['Regular Expression Tester (freeformatter.com)', 'https://www.freeformatter.com/regex-tester.html'],
+            ['Java Regular Expression Tester (freeformatter.com)', 'https://www.freeformatter.com/java-regex-tester.html']
+            //['name','href'],
+            ]);
         
         // SQL (Structured Query Syntax)
         // ---
@@ -107,6 +123,7 @@ var ToolCodePlayground = ToolCodePlayground || {
         // ---
         var listXMLHeader = {tagName: 'h2', innerHTML: 'XML'};
         var listXML = HtmlBuilder.buildHtmlLinkList([
+            ['XML Validator - XSD (freeformatter.com)', 'https://www.freeformatter.com/xml-validator-xsd.html'],
             ['XML Tester', 'http://www.webtoolkitonline.com/xml-tester.html']
             //['name','href'],
             ]);
@@ -134,7 +151,9 @@ var ToolCodePlayground = ToolCodePlayground || {
                                      listJSONHeader, listJSON,
                                      listJSONLDHeader, listJSONLD,
                                      listMobileHeader, listMobile,
+                                     listPhpHeader, listPhp,
                                      listPythonHeader, listPython,
+                                     listRegexHeader, listRegex,
                                      listSQLHeader, listSQL,
                                      listXMLHeader, listXML,
                                      //seeAlsoHeader, seeAlso
